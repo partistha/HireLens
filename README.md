@@ -34,7 +34,7 @@ To make recruitment faster and more efficient by automating resume screening and
 ## 👩‍💻 Project
 
 **Project Name:** HireLens  
-**Project Type:** BCA Minor Project
+
 
 ---
 
