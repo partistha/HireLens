@@ -347,8 +347,8 @@ def create_job():
     if not recruiter_id or not title:
         return error("Recruiter ID and job title are required.")
 
-    if status not in ["Draft", "Published", "Closed"]:
-        return error("Invalid job status.")
+    if status not in ["Draft", "Published", "Closed", "Active", "Inactive"]:
+    return error("Invalid job status.")
 
     connection = None
     cursor = None
