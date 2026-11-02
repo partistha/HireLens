@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireLens - AI Resume Screening</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6fb;
+    color: #172033;
+    padding: 30px 16px;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+}
+
+.header {
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 30px;
+    color: #172554;
+}
+
+.header p {
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.panel {
+    background: white;
+    padding: 24px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 14px 0 8px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dbe2ee;
+    border-radius: 8px;
+    background: white;
+}
+
+.upload-area {
+    border: 2px dashed #8da4df;
+    background: #f7f9ff;
+    padding: 35px 15px;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 18px;
+}
+
+.upload-area h3 {
+    margin-bottom: 8px;
+    color: #243b76;
+}
+
+.upload-area p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+button {
+    border: 0;
+    background: #3156c9;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.secondary {
+    background: #64748b;
+}
+
+.file-info {
+    margin-top: 15px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.progress-bg {
+    width: 100%;
+    height: 13px;
+    background: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #16a34a;
+    transition: width 0.25s;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.stat h2 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.stat p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.results-table th,
+.results-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    vertical-align: top;
+}
+
+.results-table th {
+    background: #f1f5f9;
+}
+
+.success-text {
+    color: #15803d;
+}
+
+.error-text {
+    color: #dc2626;
+}
+
+.status {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #475569;
+}
+
+.hidden {
+    display: none;
+}
+
+@media(max-width:650px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 16px;
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>HireLens AI Resume Screening</h1>
+        <p>Upload up to 100 resumes and screen candidates in batches.</p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Screening Details</h2>
+
+        <label for="recruiterId">Recruiter ID</label>
+        <input type="number" id="recruiterId" placeholder="Enter recruiter ID">
+
+        <label for="jobSelect">Select Job</label>
+        <select id="jobSelect">
+            <option value="">Select a job</option>
+        </select>
+
+        <button type="button" class="secondary" id="loadJobs">
+            Load My Jobs
+        </button>
+
+        <div class="upload-area" id="uploadArea">
+            <h3>Select Resume PDFs</h3>
+            <p>Choose up to 100 PDF files. Maximum 5 MB per file.</p>
+            <input
+                type="file"
+                id="resumeFiles"
+                accept=".pdf,application/pdf"
+                multiple
+            >
+        </div>
+
+        <div class="file-info" id="fileInfo">
+            No files selected.
+        </div>
+
+        <br>
+
+        <button id="startButton" type="button">
+            Start AI Screening
+        </button>
+
+        <button id="resetButton" type="button" class="secondary">
+            Reset
+        </button>
+
+        <div id="status" class="status"></div>
+
+    </div>
+
+    <div class="panel hidden" id="progressPanel">
+
+        <h2>Screening Progress</h2>
+
+        <div class="progress-bg">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <p id="progressText">0 / 0 resumes processed</p>
+        <p id="batchText" class="status"></p>
+
+        <div class="stats">
+            <div class="stat">
+                <h2 id="totalCount">0</h2>
+                <p>Total processed</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="successCount" class="success-text">0</h2>
+                <p>Successfully screened</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="failedCount" class="error-text">0</h2>
+                <p>Failed resumes</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel hidden" id="resultsPanel">
+        <h2>Screening Results</h2>
+
+        <div style="overflow-x:auto">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Email</th>
+                        <th>Match</th>
+                        <th>Matched Skills</th>
+                        <th>Missing Skills</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="resultsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel hidden" id="failedPanel">
+        <h2>Failed Resumes</h2>
+        <div id="failedBody"></div>
+    </div>
+
+</div>
+
+<script>
+const API = "http://127.0.0.1:5000";
+
+const recruiterInput = document.getElementById("recruiterId");
+const jobSelect = document.getElementById("jobSelect");
+const resumeInput = document.getElementById("resumeFiles");
+
+const startButton = document.getElementById("startButton");
+const resetButton = document.getElementById("resetButton");
+const loadJobsButton = document.getElementById("loadJobs");
+
+const fileInfo = document.getElementById("fileInfo");
+const statusBox = document.getElementById("status");
+
+const progressPanel = document.getElementById("progressPanel");
+const resultsPanel = document.getElementById("resultsPanel");
+const failedPanel = document.getElementById("failedPanel");
+
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
+const batchText = document.getElementById("batchText");
+
+let selectedFiles = [];
+
+let allResults = [];
+let allFailures = [];
+
+const MAX_FILES = 100;
+const MAX_SIZE = 5 * 1024 * 1024;
+const BATCH_SIZE = 10;
+
+
+// Try to read recruiter information from existing login storage
+function findRecruiterId() {
+
+    const possibleKeys = [
+        "hirelensUser",
+        "currentUser",
+        "user",
+        "loggedInUser",
+        "hirelens_user"
+    ];
+
+    for (const key of possibleKeys) {
+
+        try {
+            const raw = localStorage.getItem(key);
+
+            if (!raw) continue;
+
+            const user = JSON.parse(raw);
+
+            if (
+                user &&
+                user.id &&
+                (!user.role || user.role.toLowerCase() === "recruiter")
+            ) {
+                return user.id;
+            }
+
+        } catch (error) {
+            // Ignore invalid storage values
+        }
+    }
+
+    return "";
+}
+
+const savedRecruiterId = findRecruiterId();
+
+if (savedRecruiterId) {
+    recruiterInput.value = savedRecruiterId;
+}
+
+
+// Load recruiter jobs
+async function loadJobs() {
+
+    const recruiterId = recruiterInput.value.trim();
+
+    if (!recruiterId) {
+        alert("Please enter your recruiter ID.");
+        return;
+    }
+
+    jobSelect.innerHTML = '<option value="">Loading jobs...</option>';
+
+    try {
+
+        const response = await fetch(
+            `${API}/api/recruiter/${encodeURIComponent(recruiterId)}/jobs`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Unable to load jobs.");
+        }
+
+        jobSelect.innerHTML =
+            '<option value="">Select a job</option>';
+
+        const jobs = data.jobs || [];
+
+        jobs.forEach(job => {
+
+            if (job.status !== "Published") return;
+
+            const option = document.createElement("option");
+
+            option.value = job.id;
+            option.textContent =
+                `${job.title} - ${job.company || "Company"}`;
+
+            jobSelect.appendChild(option);
+        });
+
+        if (jobSelect.options.length === 1) {
+            jobSelect.innerHTML =
+                '<option value="">No published jobs found</option>';
+        }
+
+    } catch (error) {
+
+        jobSelect.innerHTML =
+            '<option value="">Could not load jobs</option>';
+
+        alert(error.message);
+    }
+}
+
+loadJobsButton.addEventListener("click", loadJobs);
+
+
+// File selection
+resumeInput.addEventListener("change", function() {
+
+    const files = Array.from(resumeInput.files || []);
+
+    selectedFiles = files;
+
+    if (selectedFiles.length > MAX_FILES) {
+        selectedFiles = selectedFiles.slice(0, MAX_FILES);
+        alert("Only the first 100 files have been selected.");
+    }
+
+    const validFiles = [];
+    const invalidFiles = [];
+
+    selectedFiles.forEach(file => {
+
+        const isPdf =
+            file.name.toLowerCase().endsWith(".pdf") &&
+            (
+                file.type === "application/pdf" ||
+                file.type === ""
+            );
+
+        if (!isPdf) {
+            invalidFiles.push(file.name + " (not a PDF)");
+        } else if (file.size === 0) {
+            invalidFiles.push(file.name + " (empty file)");
+        } else if (file.size > MAX_SIZE) {
+            invalidFiles.push(file.name + " (over 5 MB)");
+        } else {
+            validFiles.push(file);
+        }
+    });
+
+    selectedFiles = validFiles;
+
+    fileInfo.textContent =
+        `${selectedFiles.length} valid PDFs selected. ` +
+        `${invalidFiles.length} invalid files skipped.`;
+
+    if (invalidFiles.length) {
+        statusBox.textContent =
+            "Skipped: " + invalidFiles.join(", ");
+    } else {
+        statusBox.textContent = "";
+    }
+});
+
+
+// Update progress
+function updateProgress(processed, total) {
+
+    const percent = total
+        ? Math.round((processed / total) * 100)
+        : 0;
+
+    progressFill.style.width = percent + "%";
+
+    progressText.textContent =
+        `${processed} / ${total} resumes processed (${percent}%)`;
+
+    document.getElementById("totalCount").textContent = processed;
+
+    document.getElementById("successCount").textContent =
+        allResults.length;
+
+    document.getElementById("failedCount").textContent =
+        allFailures.length;
+}
+
+
+// Show final results
+function renderResults() {
+
+    resultsPanel.classList.remove("hidden");
+
+    const body = document.getElementById("resultsBody");
+    body.innerHTML = "";
+
+    allResults.sort(
+        (a, b) => Number(b.match_score) - Number(a.match_score)
+    );
+
+    allResults.forEach(item => {
+
+        const row = document.createElement("tr");
+
+        const cells = [
+            item.candidate_name || item.filename,
+            item.email || "Not found",
+            `${item.match_score}%`,
+            (item.matched_skills || []).join(", ") || "None",
+            (item.missing_skills || []).join(", ") || "None",
+            item.screening_status || "Screened"
+        ];
+
+        cells.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = value;
+            row.appendChild(td);
+        });
+
+        body.appendChild(row);
+    });
+
+    if (allFailures.length) {
+
+        failedPanel.classList.remove("hidden");
+
+        const failedBody = document.getElementById("failedBody");
+        failedBody.innerHTML = "";
+
+        allFailures.forEach(item => {
+
+            const p = document.createElement("p");
+
+            p.className = "error-text";
+            p.style.marginTop = "10px";
+
+            p.textContent =
+                `${item.filename}: ${item.message}`;
+
+            failedBody.appendChild(p);
+        });
+    } else {
+        failedPanel.classList.add("hidden");
+    }
+}
+
+
+// Main screening process
+async function startScreening() {
+
+    const recruiterId = recruiterInput.value.trim();
+    const jobId = jobSelect.value;
+
+    if (!recruiterId) {
+        alert("Enter recruiter ID.");
+        return;
+    }
+
+    if (!jobId) {
+        alert("Please select a published job.");
+        return;
+    }
+
+    if (!selectedFiles.length) {
+        alert("Please select PDF resumes.");
+        return;
+    }
+
+    startButton.disabled = true;
+    loadJobsButton.disabled = true;
+    resetButton.disabled = true;
+
+    progressPanel.classList.remove("hidden");
+    resultsPanel.classList.add("hidden");
+    failedPanel.classList.add("hidden");
+
+    allResults = [];
+    allFailures = [];
+
+    let processed = 0;
+
+    updateProgress(0, selectedFiles.length);
+
+    const totalBatches = Math.ceil(
+        selectedFiles.length / BATCH_SIZE
+    );
+
+    try {
+
+        for (
+            let batchIndex = 0;
+            batchIndex < totalBatches;
+            batchIndex++
+        ) {
+
+            const start = batchIndex * BATCH_SIZE;
+
+            const batch = selectedFiles.slice(
+                start,
+                start + BATCH_SIZE
+            );
+
+            batchText.textContent =
+                `Processing batch ${batchIndex + 1} of ${totalBatches}`;
+
+            const formData = new FormData();
+
+            batch.forEach(file => {
+                formData.append("resumes", file);
+            });
+
+            try {
+
+                const response = await fetch(
+                    `${API}/api/recruiter/${encodeURIComponent(recruiterId)}` +
+                    `/jobs/${encodeURIComponent(jobId)}/screen-resumes`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Batch screening failed."
+                    );
+                }
+
+                allResults.push(...(data.results || []));
+                allFailures.push(...(data.failed_files || []));
+
+            } catch (batchError) {
+
+                // If the whole batch fails, mark each file as failed
+                batch.forEach(file => {
+                    allFailures.push({
+                        filename: file.name,
+                        message: batchError.message
+                    });
+                });
+            }
+
+            processed += batch.length;
+
+            updateProgress(
+                processed,
+                selectedFiles.length
+            );
+
+            renderResults();
+
+        }
+
+        batchText.textContent = "All batches completed.";
+
+        statusBox.textContent =
+            `Screening completed: ${allResults.length} successful, ` +
+            `${allFailures.length} failed.`;
+
+        renderResults();
+
+    } finally {
+
+        startButton.disabled = false;
+        loadJobsButton.disabled = false;
+        resetButton.disabled = false;
+    }
+}
+
+startButton.addEventListener("click", startScreening);
+
+
+// Reset interface
+resetButton.addEventListener("click", function() {
+
+    if (startButton.disabled) return;
+
+    selectedFiles = [];
+    allResults = [];
+    allFailures = [];
+
+    resumeInput.value = "";
+
+    fileInfo.textContent = "No files selected.";
+    statusBox.textContent = "";
+
+    progressPanel.classList.add("hidden");
+    resultsPanel.classList.add("hidden");
+    failedPanel.classList.add("hidden");
+
+    progressFill.style.width = "0%";
+    progressText.textContent = "0 / 0 resumes processed";
+    batchText.textContent = "";
+
+    updateProgress(0, 0);
+});
+</script>
+
+</body>
+</html>

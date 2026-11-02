@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Registration | HireLens</title>
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body>
+
+  <main class="auth-page">
+
+    <section class="auth-brand-panel">
+      <div>
+        <a href="login.html" class="brand-logo" style="color:white">
+          <span class="brand-mark">H</span>
+          HireLens
+        </a>
+
+        <h1>Find the job<br>that fits you.</h1>
+
+        <p>
+          Create your candidate account to explore opportunities,
+          discover relevant jobs and manage your career journey.
+        </p>
+
+        <div class="tag-list" style="margin-top:28px">
+          <span class="tag">Explore Jobs</span>
+          <span class="tag">Career Growth</span>
+          <span class="tag">Smart Matching</span>
+        </div>
+      </div>
+
+      <div class="auth-brand-footer">
+        © 2026 HireLens · AI Recruitment Intelligence
+      </div>
+    </section>
+
+    <section class="auth-form-panel">
+      <div class="auth-card">
+
+        <h2>Join as a candidate 👋</h2>
+        <p class="auth-subtitle">
+          Create your account and start exploring opportunities.
+        </p>
+
+        <form id="registerForm">
+
+          <input type="hidden" name="role" value="candidate">
+
+          <div class="form-group">
+            <label for="fullName">Full name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="name"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="registerEmail">Email address</label>
+            <input
+              type="email"
+              id="registerEmail"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="registerPassword">Password</label>
+            <input
+              type="password"
+              id="registerPassword"
+              name="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+            <span class="form-hint">Use at least 8 characters.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Re-enter your password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+          </div>
+
+          <div id="registerMessage" role="status" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Create Candidate Account →
+          </button>
+
+        </form>
+
+        <p class="auth-footer">
+          Already registered?
+          <a href="login.html">Sign in</a>
+        </p>
+
+        <p class="auth-footer" style="margin-top:12px">
+          Hiring talent?
+          <a href="register.html">Register as a recruiter</a>
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const candidateForm = document.getElementById("registerForm");
+
+    candidateForm.addEventListener("submit", function(event) {
+      const password = document.getElementById("registerPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const message = document.getElementById("registerMessage");
+        message.className = "message error-message";
+        message.textContent = "Passwords do not match.";
+
+        document.getElementById("confirmPassword").focus();
+      }
+    }, true);
+  </script>
+
+  <script src="portal.js"></script>
+
+</body>
+</html>

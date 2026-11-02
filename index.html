@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireLens | AI Recruitment Platform</title>
+  <link rel="stylesheet" href="portal.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f8f9ff;
+      color: #18213b;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .navbar {
+      height: 76px;
+      padding: 0 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      border-bottom: 1px solid #e9eaf4;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 24px;
+      font-weight: 800;
+      color: #273aaf;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      color: white;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 13px;
+      font-size: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #5c6479;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: #4f46e5;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 19px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-outline {
+      color: #3730a3;
+      border: 1px solid #d9dcf3;
+      background: white;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, #4f46e5, #6d4ce8);
+      box-shadow: 0 7px 18px #4f46e526;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 85px 25px 75px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 55px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 9px 14px;
+      color: #5145cd;
+      background: #eeedff;
+      border: 1px solid #dedbff;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      margin: 23px 0 20px;
+      font-size: clamp(38px, 5vw, 61px);
+      line-height: 1.12;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: #5949df;
+    }
+
+    .hero p {
+      max-width: 540px;
+      color: #6b7287;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 30px;
+    }
+
+    .trust {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 32px;
+      color: #6b7287;
+      font-size: 13px;
+    }
+
+    .trust strong {
+      color: #29334e;
+    }
+
+    .preview {
+      position: relative;
+      padding: 23px;
+      background: white;
+      border: 1px solid #e8e9f5;
+      border-radius: 23px;
+      box-shadow: 0 25px 65px #313d8112;
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 23px;
+    }
+
+    .preview-top h3 {
+      font-size: 17px;
+    }
+
+    .live {
+      color: #13875a;
+      background: #e6f8ef;
+      padding: 7px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .preview-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 11px;
+      margin-bottom: 22px;
+    }
+
+    .mini-stat {
+      padding: 15px 10px;
+      background: #f7f8ff;
+      border: 1px solid #eceeff;
+      border-radius: 13px;
+    }
+
+    .mini-stat span {
+      display: block;
+      margin-bottom: 8px;
+      color: #737a91;
+      font-size: 11px;
+    }
+
+    .mini-stat strong {
+      font-size: 23px;
+    }
+
+    .preview-label {
+      margin-bottom: 13px;
+      color: #4b536a;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .candidate {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid #f0f1f7;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      color: #4f46e5;
+      background: #eeedff;
+      font-weight: 800;
+    }
+
+    .candidate-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .candidate-info strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .candidate-info small {
+      color: #81879a;
+      font-size: 11px;
+    }
+
+    .match {
+      color: #13875a;
+      background: #e5f8ee;
+      border-radius: 8px;
+      padding: 7px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .section {
+      padding: 75px 7%;
+      background: white;
+    }
+
+    .section-heading {
+      max-width: 650px;
+      margin: 0 auto 42px;
+      text-align: center;
+    }
+
+    .section-heading span {
+      color: #5949df;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 {
+      margin: 12px 0;
+      font-size: 34px;
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      color: #70778b;
+      line-height: 1.8;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      max-width: 1120px;
+      margin: auto;
+    }
+
+    .feature {
+      padding: 27px;
+      background: #fbfbff;
+      border: 1px solid #e9eaf5;
+      border-radius: 17px;
+      transition: 0.2s;
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+      border-color: #c8c4ff;
+      box-shadow: 0 15px 30px #4338ca0d;
+    }
+
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 20px;
+      border-radius: 14px;
+      background: #eeedff;
+      font-size: 23px;
+    }
+
+    .feature h3 {
+      margin-bottom: 11px;
+      font-size: 17px;
+    }
+
+    .feature p {
+      color: #73798c;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .cta {
+      max-width: 1050px;
+      margin: 65px auto;
+      padding: 45px 25px;
+      text-align: center;
+      background: linear-gradient(135deg, #292c86, #5949df);
+      color: white;
+      border-radius: 23px;
+    }
+
+    .cta h2 {
+      margin-bottom: 13px;
+      font-size: 30px;
+    }
+
+    .cta p {
+      margin-bottom: 23px;
+      color: #e2e4ff;
+      line-height: 1.7;
+    }
+
+    .cta .btn {
+      color: #4338ca;
+      background: white;
+    }
+
+    footer {
+      padding: 25px 7%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      color: #777e91;
+      background: #fafaff;
+      border-top: 1px solid #e9eaf4;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 55px;
+        gap: 40px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .preview {
+        max-width: 600px;
+        width: 100%;
+        margin: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 0 5%;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .nav-actions {
+        gap: 7px;
+      }
+
+      .nav-actions .btn {
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 45px 20px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .preview {
+        padding: 15px;
+      }
+
+      .mini-stat strong {
+        font-size: 19px;
+      }
+
+      .section-heading h2 {
+        font-size: 28px;
+      }
+
+      .cta {
+        margin: 35px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <a href="index.html" class="brand">
+      <span class="brand-icon">H</span>
+      HireLens
+    </a>
+
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-outline">Log in</a>
+      <a href="register.html" class="btn btn-primary">Get Started ↗</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div>
+        <span class="eyebrow">✦ SMARTER RECRUITMENT STARTS HERE</span>
+
+        <h1>Find the right talent.<br>
+          <span>Build the future.</span>
+        </h1>
+
+        <p>
+          HireLens brings recruiters and job seekers together through
+          intelligent resume screening, skill-based job matching, and a
+          simpler recruitment experience.
+        </p>
+
+        <div class="hero-actions">
+          <a href="register.html" class="btn btn-primary">
+            Start Hiring →
+          </a>
+
+          <a href="candidate_register.html" class="btn btn-outline">
+            Find Your Job
+          </a>
+        </div>
+
+        <div class="trust">
+          <span>✓</span>
+          <span><strong>One platform.</strong> Two career possibilities.</span>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="preview-top">
+          <h3>Recruitment Overview</h3>
+          <span class="live">● Live Preview</span>
+        </div>
+
+        <div class="preview-stats">
+          <div class="mini-stat">
+            <span>Resumes</span>
+            <strong>150</strong>
+          </div>
+
+          <div class="mini-stat">
+            <span>Shortlisted</span>
+            <strong>40</strong>
+          </div>
+
+          <div class="mini-stat">
+            <span>Open Jobs</span>
+            <strong>12</strong>
+          </div>
+        </div>
+
+        <div class="preview-label">Illustrative candidate matches</div>
+
+        <div class="candidate">
+          <div class="avatar">AS</div>
+          <div class="candidate-info">
+            <strong>Alex Smith</strong>
+            <small>Python · Machine Learning · SQL</small>
+          </div>
+          <span class="match">94%</span>
+        </div>
+
+        <div class="candidate">
+          <div class="avatar">JD</div>
+          <div class="candidate-info">
+            <strong>Jamie Davis</strong>
+            <small>Data Analytics · Python · Excel</small>
+          </div>
+          <span class="match">87%</span>
+        </div>
+
+        <div class="candidate">
+          <div class="avatar">RK</div>
+          <div class="candidate-info">
+            <strong>Riya Kapoor</strong>
+            <small>Java · SQL · Web Development</small>
+          </div>
+          <span class="match">82%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-heading">
+        <span>What makes HireLens different?</span>
+        <h2>Everything you need to move forward</h2>
+        <p>
+          Tools designed to make recruitment easier for employers
+          and job discovery simpler for candidates.
+        </p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon">📄</div>
+          <h3>Resume Screening</h3>
+          <p>
+            Explore a resume-screening workflow designed to help recruiters
+            review candidate information more efficiently.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">🎯</div>
+          <h3>Skill-Based Job Matching</h3>
+          <p>
+            Compare candidate skills with job requirements to discover
+            potentially relevant opportunities.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">💼</div>
+          <h3>Career Opportunities</h3>
+          <p>
+            Browse available jobs, maintain your candidate profile, and
+            keep track of opportunities in one place.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta" id="about">
+      <h2>Your next opportunity starts here.</h2>
+      <p>
+        Join HireLens to explore career opportunities or simplify
+        your recruitment workflow.
+      </p>
+      <a href="register.html" class="btn">Create Your Account →</a>
+    </section>
+  </main>
+
+  <footer>
+    <span><strong>HireLens</strong> · AI Recruitment Intelligence</span>
+    <span>© 2026 HireLens. All rights reserved.</span>
+  </footer>
+</body>
+</html>

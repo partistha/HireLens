@@ -1,0 +1,1042 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | HireLens</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 245px;
+            background: #111b35;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            margin: 0 10px 38px;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #8b9cff;
+        }
+
+        .nav-title {
+            color: #8290ae;
+            font-size: 11px;
+            font-weight: 700;
+            margin: 25px 12px 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            display: block;
+            color: #c4cde0;
+            text-decoration: none;
+            padding: 13px 14px;
+            margin: 5px 0;
+            border-radius: 9px;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #28385e;
+            color: white;
+        }
+
+        .nav-link.active {
+            border-left: 3px solid #8295ff;
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 30px 38px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .topbar h2 {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .topbar p {
+            color: #778197;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .user-badge {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 3px 12px #1720330d;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px #17203308;
+            margin-bottom: 22px;
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 23px;
+            gap: 15px;
+        }
+
+        .card-heading h3 {
+            font-size: 17px;
+            font-weight: 750;
+        }
+
+        .card-heading p {
+            color: #8992a5;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .completion-box {
+            background: #f0f3ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .completion-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .progress {
+            height: 8px;
+            background: #dce2f5;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #5869e8, #8b9cff);
+            border-radius: 20px;
+            transition: .3s;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #3b455a;
+            margin-bottom: 9px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #e1e5ed;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            color: #172033;
+            background: #fff;
+            transition: .2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #6578ee;
+            box-shadow: 0 0 0 3px #6578ee15;
+        }
+
+        input:disabled {
+            background: #f3f5f8;
+            color: #8a92a2;
+        }
+
+        textarea {
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd3eb;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            background: #fafbff;
+        }
+
+        .upload-icon {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .upload-box h4 {
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .upload-box p {
+            color: #8992a5;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            background: #5869e8;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            width: auto;
+        }
+
+        .browse-btn:hover {
+            background: #4355d3;
+        }
+
+        #resumeFile {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .file-name {
+            font-size: 12px;
+            color: #53617b;
+            margin-top: 15px;
+            overflow-wrap: anywhere;
+            margin-bottom: 0 !important;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 22px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .reset-btn {
+            background: #eef0f5;
+            color: #4e5870;
+        }
+
+        .save-btn {
+            background: #5869e8;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #4355d3;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            font-size: 13px;
+            margin-top: 16px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .success {
+            color: #16834a;
+        }
+
+        .error {
+            color: #d33d4c;
+        }
+
+        @media(max-width: 850px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                padding: 25px 20px;
+            }
+        }
+
+        @media(max-width: 650px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 18px;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .nav-link {
+                display: inline-block;
+                padding: 9px;
+                font-size: 11px;
+            }
+
+            .main {
+                padding: 20px 14px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .profile-card {
+                padding: 19px;
+            }
+
+            .topbar h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">Hire<span>Lens.</span></div>
+
+        <div class="nav-title">Candidate Menu</div>
+
+        <a href="candidate-dashboard.html" class="nav-link">Dashboard</a>
+        <a href="find-jobs.html" class="nav-link">Explore Jobs</a>
+        <a href="job-match.html" class="nav-link">AI Job Match</a>
+        <a href="candidate-profile.html" class="nav-link active">My Profile</a>
+        <a href="applications.html" class="nav-link">Applications</a>
+
+        <div class="nav-title">Account</div>
+
+        <a href="login.html" class="nav-link" id="logoutBtn">Logout</a>
+
+    </aside>
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h2>My Profile</h2>
+                <p>Manage your personal information and career documents.</p>
+            </div>
+
+            <div class="user-badge" id="userBadge">Candidate</div>
+
+        </div>
+
+        <form id="profileForm">
+
+            <section class="profile-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Personal Information</h3>
+                        <p>Keep your profile information up to date.</p>
+                    </div>
+                </div>
+
+                <div class="completion-box">
+
+                    <div class="completion-top">
+                        <span>Profile Completion</span>
+                        <span id="completionText">0%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" disabled placeholder="Your email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" required placeholder="Enter phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education">Education *</label>
+                        <input type="text" id="education" required placeholder="Example: BCA, MCA">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="location">Location *</label>
+                        <input type="text" id="location" required placeholder="Enter your city">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="skills">Skills *</label>
+                        <input type="text" id="skills" required placeholder="Python, HTML, CSS, SQL...">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="about">About Me *</label>
+                        <textarea id="about" required placeholder="Write a short description about yourself..."></textarea>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="profile-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Career Documents</h3>
+                        <p>Upload your resume to get AI-powered job recommendations.</p>
+                    </div>
+                </div>
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">📄</div>
+
+                    <h4>Upload Your Resume</h4>
+                    <p>PDF format only · Maximum 5 MB</p>
+
+                    <button type="button" class="browse-btn" id="browseResumeBtn">
+                        Browse Resume
+                    </button>
+
+                    <input
+                        type="file"
+                        id="resumeFile"
+                        accept=".pdf,application/pdf"
+                    >
+
+                    <p class="file-name" id="fileName">
+                        No new resume selected
+                    </p>
+
+                </div>
+
+            </section>
+
+            <section class="profile-card">
+
+                <div class="button-row">
+
+                    <button type="reset" class="reset-btn">Reset</button>
+
+                    <button type="submit" class="save-btn" id="saveButton">
+                        Save Changes
+                    </button>
+
+                </div>
+
+                <div id="saveMessage" class="message"></div>
+
+            </section>
+
+        </form>
+
+    </main>
+
+</div>
+
+<script>
+
+    // ==========================================
+    // 1. CONFIGURATION
+    // ==========================================
+
+    const API_URL = "http://127.0.0.1:5000";
+
+    const form = document.getElementById("profileForm");
+    const fileInput = document.getElementById("resumeFile");
+    const fileName = document.getElementById("fileName");
+    const saveButton = document.getElementById("saveButton");
+    const message = document.getElementById("saveMessage");
+    const browseResumeBtn = document.getElementById("browseResumeBtn");
+
+    // ==========================================
+    // 2. FIND LOGGED-IN USER
+    // ==========================================
+
+    function getLoggedInUser() {
+
+        const storedUser = localStorage.getItem("hireLensUser");
+
+        if (storedUser) {
+
+            try {
+                return JSON.parse(storedUser);
+            } catch (error) {
+                console.error("Invalid user data:", error);
+            }
+
+        }
+
+        const userId = localStorage.getItem("hirelens_user_id");
+        const role = localStorage.getItem("hirelens_role");
+
+        if (userId && role) {
+
+            return {
+                id: userId,
+                role: role,
+                name: "Candidate"
+            };
+
+        }
+
+        return null;
+
+    }
+
+    const currentUser = getLoggedInUser();
+
+    const candidateId = currentUser
+        ? Number(currentUser.id)
+        : null;
+
+    const savedResumeKey = candidateId
+        ? `hirelens_resume_${candidateId}`
+        : null;
+
+    // ==========================================
+    // 3. LOGIN VALIDATION
+    // ==========================================
+
+    const isValidCandidate =
+        currentUser &&
+        Number.isInteger(candidateId) &&
+        candidateId > 0 &&
+        currentUser.role === "candidate";
+
+    if (!isValidCandidate) {
+
+        alert("Please login as a candidate.");
+
+        window.location.href = "login.html";
+
+    } else {
+
+        document.getElementById("userBadge").textContent =
+            currentUser.name || "Candidate";
+
+        document.getElementById("email").value =
+            currentUser.email || "";
+
+    }
+
+    // ==========================================
+    // 4. MESSAGE FUNCTION
+    // ==========================================
+
+    function showMessage(text, type = "success") {
+
+        message.textContent = text;
+        message.className = "message " + type;
+
+    }
+
+    // ==========================================
+    // 5. SAVED RESUME DISPLAY
+    // ==========================================
+
+    function showSavedResume() {
+
+        if (!savedResumeKey) return;
+
+        const savedResume = localStorage.getItem(savedResumeKey);
+
+        fileName.textContent = savedResume
+            ? "✓ Previously uploaded: " + savedResume
+            : "No new resume selected";
+
+    }
+
+    // ==========================================
+    // 6. PROFILE COMPLETION
+    // ==========================================
+
+    function updatePreview() {
+
+        const fields = [
+            "fullName",
+            "phone",
+            "education",
+            "location",
+            "skills",
+            "about"
+        ];
+
+        let completed = 0;
+
+        fields.forEach(function(id) {
+
+            if (document.getElementById(id).value.trim() !== "") {
+                completed++;
+            }
+
+        });
+
+        const percentage = Math.round(
+            (completed / fields.length) * 100
+        );
+
+        document.getElementById("completionText").textContent =
+            percentage + "%";
+
+        document.getElementById("progressBar").style.width =
+            percentage + "%";
+
+    }
+
+    // ==========================================
+    // 7. LOAD PROFILE
+    // ==========================================
+
+    async function loadProfile() {
+
+        if (!isValidCandidate) return;
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/candidate/${candidateId}/profile`
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    data.error ||
+                    "Unable to load profile."
+                );
+
+            }
+
+            const profile = data.profile || data;
+
+            document.getElementById("fullName").value =
+                profile.full_name || profile.name || currentUser.name || "";
+
+            document.getElementById("email").value =
+                profile.email || currentUser.email || "";
+
+            document.getElementById("phone").value =
+                profile.phone || "";
+
+            document.getElementById("education").value =
+                profile.education || "";
+
+            document.getElementById("location").value =
+                profile.location || "";
+
+            document.getElementById("skills").value =
+                profile.skills || "";
+
+            document.getElementById("about").value =
+                profile.about || "";
+
+            updatePreview();
+
+        } catch (error) {
+
+            console.error("Profile loading error:", error);
+
+            showMessage(
+                "Unable to load profile: " + error.message,
+                "error"
+            );
+
+        }
+
+    }
+
+    // ==========================================
+    // 8. OPEN RESUME FILE PICKER
+    // ==========================================
+
+    browseResumeBtn.addEventListener("click", function() {
+
+        fileInput.click();
+
+    });
+
+    // ==========================================
+    // 9. SELECT AND VALIDATE RESUME
+    // ==========================================
+
+    fileInput.addEventListener("change", function() {
+
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showSavedResume();
+            return;
+        }
+
+        // Check PDF extension
+        if (!file.name.toLowerCase().endsWith(".pdf")) {
+
+            alert("Please select a PDF file only.");
+
+            fileInput.value = "";
+
+            showSavedResume();
+
+            return;
+
+        }
+
+        // Check file size
+        if (file.size > 5 * 1024 * 1024) {
+
+            alert("Resume cannot exceed 5 MB.");
+
+            fileInput.value = "";
+
+            showSavedResume();
+
+            return;
+
+        }
+
+        if (file.size === 0) {
+
+            alert("Selected file is empty. Please choose another PDF.");
+
+            fileInput.value = "";
+
+            showSavedResume();
+
+            return;
+
+        }
+
+        fileName.textContent = "✓ Selected: " + file.name;
+
+        showMessage(
+            "Resume selected. Click Save Changes to upload it.",
+            "success"
+        );
+
+    });
+
+    // ==========================================
+    // 10. SAVE PROFILE AND UPLOAD RESUME
+    // ==========================================
+
+    form.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        if (!isValidCandidate) {
+
+            showMessage("Please login as a candidate.", "error");
+
+            return;
+
+        }
+
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+
+        showMessage("");
+
+        try {
+
+            const profileData = {
+
+                full_name: document.getElementById("fullName").value.trim(),
+
+                phone: document.getElementById("phone").value.trim(),
+
+                education: document.getElementById("education").value.trim(),
+
+                location: document.getElementById("location").value.trim(),
+
+                skills: document.getElementById("skills").value.trim(),
+
+                about: document.getElementById("about").value.trim()
+
+            };
+
+            // SAVE PROFILE
+
+            const profileResponse = await fetch(
+                `${API_URL}/api/candidate/${candidateId}/profile`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(profileData)
+                }
+            );
+
+            const profileResult = await profileResponse.json();
+
+            if (!profileResponse.ok) {
+
+                throw new Error(
+                    profileResult.message ||
+                    profileResult.error ||
+                    "Profile save failed."
+                );
+
+            }
+
+            // UPLOAD RESUME IF SELECTED
+
+            const selectedFile = fileInput.files[0];
+
+            if (selectedFile) {
+
+                const formData = new FormData();
+
+                formData.append("resume", selectedFile);
+
+                const resumeResponse = await fetch(
+                    `${API_URL}/api/candidate/${candidateId}/resume`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                const resumeResult = await resumeResponse.json();
+
+                if (!resumeResponse.ok) {
+
+                    throw new Error(
+                        resumeResult.message ||
+                        resumeResult.error ||
+                        "Resume upload failed."
+                    );
+
+                }
+
+                const uploadedFilename =
+                    resumeResult.filename || selectedFile.name;
+
+                localStorage.setItem(
+                    savedResumeKey,
+                    uploadedFilename
+                );
+
+                fileInput.value = "";
+
+                showSavedResume();
+
+            }
+
+            showMessage(
+                selectedFile
+                    ? "✓ Profile and resume saved successfully!"
+                    : "✓ Profile saved successfully!",
+                "success"
+            );
+
+            updatePreview();
+
+        } catch (error) {
+
+            console.error("Save error:", error);
+
+            showMessage(
+                "Error: " + error.message,
+                "error"
+            );
+
+        } finally {
+
+            saveButton.disabled = false;
+            saveButton.textContent = "Save Changes";
+
+        }
+
+    });
+
+    // ==========================================
+    // 11. RESET FORM
+    // ==========================================
+
+    form.addEventListener("reset", function() {
+
+        setTimeout(function() {
+
+            fileInput.value = "";
+
+            showSavedResume();
+
+            showMessage("");
+
+            updatePreview();
+
+            loadProfile();
+
+        }, 0);
+
+    });
+
+    // ==========================================
+    // 12. LIVE PROFILE COMPLETION
+    // ==========================================
+
+    [
+        "fullName",
+        "phone",
+        "education",
+        "location",
+        "skills",
+        "about"
+    ].forEach(function(id) {
+
+        document.getElementById(id).addEventListener(
+            "input",
+            updatePreview
+        );
+
+    });
+
+    // ==========================================
+    // 13. LOGOUT
+    // ==========================================
+
+    document.getElementById("logoutBtn").addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("hireLensUser");
+            localStorage.removeItem("hirelens_user_id");
+            localStorage.removeItem("hirelens_role");
+
+            window.location.href = "login.html";
+
+        }
+    );
+
+    // ==========================================
+    // 14. INITIAL PAGE LOAD
+    // ==========================================
+
+    if (isValidCandidate) {
+
+        showSavedResume();
+
+        loadProfile();
+
+        updatePreview();
+
+    }
+
+</script>
+
+</body>
+</html>

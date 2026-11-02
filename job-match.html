@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Job Match | HireLens</title>
+  <link rel="stylesheet" href="portal.css">
+  <script src="portal.js" defer></script>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#f6f7fb;color:#252750;font-family:Inter,Arial,sans-serif}
+    .layout{display:flex;min-height:100vh}
+    .sidebar{width:245px;flex-shrink:0;background:#202454;color:#fff;padding:28px 18px}
+    .brand{font-size:25px;font-weight:800;letter-spacing:-1px;margin:0 0 38px 10px}
+    .brand span{color:#a5b4fc}
+    .nav-label{font-size:11px;color:#a7acd0;text-transform:uppercase;letter-spacing:1.5px;margin:24px 12px 12px}
+    .nav-link{display:block;padding:13px 14px;margin:5px 0;border-radius:10px;color:#dce0ff;text-decoration:none;font-size:14px}
+    .nav-link:hover,.nav-link.active{background:#41458a;color:#fff}
+    main{flex:1;min-width:0;padding:32px 4%}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}
+    h1{font-size:28px;margin:0 0 8px}
+    .muted{font-size:14px;color:#7b8198;line-height:1.6}
+    .user-chip{background:#fff;border:1px solid #e8eaf2;border-radius:25px;padding:10px 15px;font-size:13px}
+    .hero{background:linear-gradient(120deg,#353a85,#6658d3);padding:29px;border-radius:18px;color:#fff;margin-bottom:24px}
+    .hero h2{font-size:24px;margin:0 0 10px}
+    .hero p{margin:0;color:#e5e6ff;line-height:1.7}
+    .panel{background:#fff;border:1px solid #e8eaf2;border-radius:15px;padding:24px;margin-bottom:24px}
+    .panel h2{font-size:18px;margin:0 0 9px}
+    label{display:block;font-size:13px;font-weight:700;margin:18px 0 8px}
+    input,textarea{width:100%;padding:13px;border:1px solid #dfe2ee;border-radius:9px;font-size:14px;font-family:inherit;outline:none}
+    input:focus,textarea:focus{border-color:#625bd4}
+    textarea{resize:vertical;min-height:105px;line-height:1.6}
+    .hint{font-size:12px;color:#858ba0;margin-top:7px}
+    button,.primary-link{display:inline-block;background:#514dc7;color:white;border:0;border-radius:9px;padding:12px 18px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none}
+    button:hover,.primary-link:hover{background:#403ba9}
+    button:disabled{opacity:.6;cursor:wait}
+    .results-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
+    .results-head h2{font-size:19px;margin:0}
+    .job-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .job-card{background:white;border:1px solid #e8eaf2;border-radius:14px;padding:20px;min-width:0}
+    .job-card h3{font-size:16px;margin:0 0 7px;overflow-wrap:anywhere}
+    .company{font-size:13px;color:#777f96}
+    .score-row{display:flex;justify-content:space-between;align-items:center;margin:19px 0 8px;font-size:12px;font-weight:700}
+    .score{color:#514dc7;font-size:19px}
+    .track{height:8px;background:#ececf7;border-radius:10px;overflow:hidden}
+    .fill{height:100%;background:linear-gradient(90deg,#5755ce,#8b70ed);border-radius:10px}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+    .tag{background:#f0efff;color:#5750b8;padding:6px 8px;border-radius:6px;font-size:11px}
+    .missing{background:#fff3e8;color:#a75b18}
+    .empty{background:white;border:1px dashed #d6d9e8;border-radius:14px;padding:30px;text-align:center;color:#777f96;line-height:1.7;grid-column:1/-1}
+    #statusMessage{font-size:13px;margin-top:12px;color:#5750b8}
+    @media(max-width:850px){.layout{display:block}.sidebar{width:auto;padding:20px}.brand{margin-bottom:18px}.sidebar nav{display:flex;flex-wrap:wrap;gap:5px}.nav-label{display:none}.nav-link{padding:10px;font-size:12px}main{padding:22px 16px}.topbar{align-items:flex-start;flex-direction:column}.job-list{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Hire<span>Lens</span></div>
+    <nav>
+      <div class="nav-label">Workspace</div>
+      <a class="nav-link" href="candidate_dashboard.html">▦ &nbsp; Dashboard</a>
+     <a class="nav-link" href="find-jobs.html">⌕ &nbsp; Explore Jobs</a>
+      <a class="nav-link active" href="job-match.html">✧ &nbsp; AI Job Match</a>
+      <div class="nav-label">My Account</div>
+<a class="nav-link" href="candidate-profile.html">♙ &nbsp; My Profile</a>
+      <a class="nav-link" href="applications.html">▤ &nbsp; Applications</a>
+      <a class="nav-link" href="#" data-logout>↪ &nbsp; Logout</a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <h1>AI Job Match</h1>
+        <div class="muted">Discover opportunities that align with your skills.</div>
+      </div>
+      <div class="user-chip">👤 <span data-user-name>Candidate</span></div>
+    </header>
+
+    <section class="hero">
+      <h2>Find your best-fit role. ✨</h2>
+      <p>Enter your skills and compare them with job requirements to see which opportunities fit you best.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Build Your Skill Profile</h2>
+      <p class="muted">Add skills separated by commas. For example: Python, SQL, HTML, Machine Learning.</p>
+      <form id="matchForm">
+        <label for="candidateSkills">Your Skills</label>
+        <textarea id="candidateSkills" placeholder="Python, SQL, HTML, CSS, Machine Learning" required></textarea>
+        <div class="hint">Tip: Include technical skills you actually know.</div>
+
+        <label for="preferredRole">Preferred Job Role (optional)</label>
+        <input id="preferredRole" type="text" placeholder="e.g. Python Developer, Data Analyst">
+
+        <div style="margin-top:20px">
+          <button type="submit" id="matchButton">✧ Find My Matches</button>
+        </div>
+        <div id="statusMessage" role="status"></div>
+      </form>
+    </section>
+
+    <section>
+      <div class="results-head">
+        <h2>Your Matching Opportunities</h2>
+        <span class="muted" id="matchCount">Not calculated yet</span>
+      </div>
+      <div class="job-list" id="matchResults">
+        <div class="empty">Enter your skills above and select “Find My Matches” to compare jobs.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const user = typeof getStoredUser === "function" ? getStoredUser() : null;
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (user.role && user.role.toLowerCase() !== "candidate") {
+    window.location.href = "recruiter-dashboard.html";
+    return;
+  }
+
+  const form = document.getElementById("matchForm");
+  const skillsInput = document.getElementById("candidateSkills");
+  const roleInput = document.getElementById("preferredRole");
+  const button = document.getElementById("matchButton");
+  const status = document.getElementById("statusMessage");
+  const results = document.getElementById("matchResults");
+  const count = document.getElementById("matchCount");
+
+  const savedSkills = localStorage.getItem("hireLensCandidateSkills");
+  if (savedSkills) skillsInput.value = savedSkills;
+
+  let jobs = [];
+
+  function normalize(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9+#. ]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function getJobSkills(job) {
+    return String(job.required_skills || "")
+      .split(",")
+      .map(skill => skill.trim())
+      .filter(Boolean);
+  }
+
+  function calculateMatch(job, candidateSkills, preferredRole) {
+    const required = getJobSkills(job);
+    const matched = required.filter(skill =>
+      candidateSkills.some(candidateSkill =>
+        normalize(candidateSkill) === normalize(skill)
+      )
+    );
+
+    const skillScore = required.length
+      ? Math.round((matched.length / required.length) * 100)
+      : 0;
+
+    const role = normalize(preferredRole);
+    const jobTitle = normalize(job.title);
+
+    // Skill matching is the main factor; role similarity adds a small bonus.
+    const roleBonus = role && jobTitle.includes(role) ? 10 : 0;
+    const score = Math.min(100, Math.round(skillScore * 0.9 + roleBonus));
+
+    return { score, matched, missing: required.filter(skill => !matched.includes(skill)) };
+  }
+
+  function renderMatches() {
+    const candidateSkills = skillsInput.value
+      .split(",")
+      .map(skill => skill.trim())
+      .filter(Boolean);
+
+    const preferredRole = roleInput.value.trim();
+
+    if (!candidateSkills.length) {
+      status.textContent = "Please enter at least one skill.";
+      return;
+    }
+
+    localStorage.setItem("hireLensCandidateSkills", skillsInput.value);
+    status.textContent = "Matching complete. Scores are based on skill overlap and preferred role.";
+
+    const activeJobs = jobs.filter(job =>
+  !job.status ||
+  ["active", "published"].includes(String(job.status).toLowerCase())
+);
+    const ranked = activeJobs.map(job => ({
+      job,
+      ...calculateMatch(job, candidateSkills, preferredRole)
+    })).sort((a, b) => b.score - a.score);
+
+    count.textContent = ranked.length + (ranked.length === 1 ? " result" : " results");
+    results.replaceChildren();
+
+    if (!ranked.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "No active jobs found. Ask your recruiter to add job openings.";
+      results.appendChild(empty);
+      return;
+    }
+
+    ranked.forEach(item => {
+      const job = item.job;
+      const card = document.createElement("article");
+      card.className = "job-card";
+
+      const title = document.createElement("h3");
+      title.textContent = job.title || "Untitled Position";
+
+      const company = document.createElement("div");
+      company.className = "company";
+      company.textContent = (job.company || "Company not specified") +
+        (job.location ? " · " + job.location : "");
+
+      const scoreRow = document.createElement("div");
+      scoreRow.className = "score-row";
+
+      const label = document.createElement("span");
+      label.textContent = "Skill match score";
+
+      const score = document.createElement("span");
+      score.className = "score";
+      score.textContent = item.score + "%";
+
+      scoreRow.append(label, score);
+
+      const track = document.createElement("div");
+      track.className = "track";
+
+      const fill = document.createElement("div");
+      fill.className = "fill";
+      fill.style.width = item.score + "%";
+      track.appendChild(fill);
+
+      const matchedHeading = document.createElement("div");
+      matchedHeading.className = "muted";
+      matchedHeading.style.marginTop = "16px";
+      matchedHeading.textContent = "Matched skills";
+
+      const matchedTags = document.createElement("div");
+      matchedTags.className = "tags";
+
+      if (item.matched.length) {
+        item.matched.forEach(skill => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = "✓ " + skill;
+          matchedTags.appendChild(tag);
+        });
+      } else {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = "No exact skill matches yet";
+        matchedTags.appendChild(tag);
+      }
+
+      const missingTags = document.createElement("div");
+      missingTags.className = "tags";
+      item.missing.slice(0, 5).forEach(skill => {
+        const tag = document.createElement("span");
+        tag.className = "tag missing";
+        tag.textContent = "Learn: " + skill;
+        missingTags.appendChild(tag);
+      });
+
+      const apply = document.createElement("a");
+      apply.className = "primary-link";
+      apply.href = "applications.html";
+      apply.style.marginTop = "16px";
+      apply.textContent = "View / Apply →";
+      apply.addEventListener("click", function () {
+        localStorage.setItem("hireLensSelectedJob", JSON.stringify({
+          id: job.id,
+          title: job.title || "Untitled Position",
+          company: job.company || "Company not specified",
+          location: job.location || "",
+          required_skills: job.required_skills || "",
+          description: job.description || ""
+        }));
+      });
+
+      card.append(title, company, scoreRow, track, matchedHeading, matchedTags);
+
+      if (item.missing.length) {
+        const missingHeading = document.createElement("div");
+        missingHeading.className = "muted";
+        missingHeading.style.marginTop = "12px";
+        missingHeading.textContent = "Skills to improve";
+        card.append(missingHeading, missingTags);
+      }
+
+      card.appendChild(apply);
+      results.appendChild(card);
+    });
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    renderMatches();
+  });
+
+  async function loadJobs() {
+    button.disabled = true;
+    button.textContent = "Loading jobs...";
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/jobs");
+      if (!response.ok) throw new Error("Job API request failed");
+
+      const data = await response.json();
+      jobs = Array.isArray(data) ? data : (data.jobs || data.data || []);
+
+      if (!jobs.length) {
+        status.textContent = "No jobs are available to compare yet.";
+      }
+    } catch (error) {
+      status.textContent = "Could not connect to the job server. Start the Flask backend and refresh.";
+    } finally {
+      button.disabled = false;
+      button.textContent = "✧ Find My Matches";
+    }
+  }
+
+  loadJobs();
+});
+</script>
+</body>
+</html>

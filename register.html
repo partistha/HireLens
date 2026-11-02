@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | HireLens</title>
+  <link rel="stylesheet" href="portal.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+      background: #f5f6ff;
+      color: #202747;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+
+    .brand-panel {
+      padding: 45px 9%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+      background: linear-gradient(145deg, #191f50, #30338e 65%, #5145cd);
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .brand span { color: #aaa4ff; }
+
+    .hero { max-width: 460px; padding: 55px 0; }
+
+    .tag {
+      display: inline-block;
+      padding: 9px 13px;
+      border: 1px solid #ffffff35;
+      border-radius: 30px;
+      color: #ddd9ff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 4vw, 54px);
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+    }
+
+    .hero h1 span { color: #aaa4ff; }
+
+    .hero p {
+      color: #d0d3f2;
+      line-height: 1.9;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .benefits {
+      display: grid;
+      gap: 13px;
+      margin-top: 28px;
+    }
+
+    .benefit {
+      padding: 14px;
+      border: 1px solid #ffffff25;
+      background: #ffffff0c;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .footer { color: #c1c5e8; font-size: 12px; }
+
+    .form-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 35px 7%;
+    }
+
+    .register-card { width: 100%; max-width: 460px; }
+
+    .mobile-brand {
+      display: none;
+      color: #4338ca;
+      font-weight: 800;
+      font-size: 23px;
+      margin-bottom: 25px;
+      text-decoration: none;
+    }
+
+    .top-label {
+      color: #5145cd;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 32px; letter-spacing: -1px; }
+
+    .subtitle {
+      margin: 10px 0 25px;
+      color: #777e94;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .field { margin-bottom: 17px; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #303853;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #e0e3ef;
+      border-radius: 10px;
+      padding: 0 13px;
+      background: white;
+      color: #252b45;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: #7166ed;
+      box-shadow: 0 0 0 4px #5145cd12;
+    }
+
+    .roles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0 20px;
+    }
+
+    .role-option { cursor: pointer; }
+
+    .role-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .role-box {
+      display: block;
+      text-align: center;
+      padding: 15px 8px;
+      border: 1px solid #e0e3ef;
+      border-radius: 11px;
+      background: white;
+      color: #5f6680;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .role-option input:checked + .role-box {
+      border-color: #7166ed;
+      background: #f0efff;
+      color: #4338ca;
+    }
+
+    .role-option input:focus-visible + .role-box {
+      outline: 2px solid #5145cd;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 51px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 11px;
+      background: linear-gradient(110deg, #4f46e5, #704be7);
+      box-shadow: 0 8px 18px #5145cd2c;
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .submit-btn:hover { transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: .65; cursor: wait; }
+
+    .message {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .message:empty { display: none; }
+    .message.error { color: #a12828; background: #fff0f0; }
+    .message.success { color: #147548; background: #eaf9f0; }
+
+    .login-link, .back-home {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 20px;
+      color: #777e94;
+    }
+
+    .login-link a, .back-home a {
+      color: #5145cd;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    @media (max-width: 760px) {
+      .page { display: block; }
+      .brand-panel { display: none; }
+      .form-panel { min-height: 100vh; padding: 30px 22px; }
+      .mobile-brand { display: inline-block; }
+      h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="brand-panel">
+      <a class="brand" href="index.html">✦ Hire<span>Lens</span></a>
+
+      <div class="hero">
+        <div class="tag">YOUR NEXT CHAPTER STARTS HERE</div>
+        <h1>Build connections.<br><span>Unlock potential.</span></h1>
+        <p>
+          Join HireLens to discover better career opportunities or find
+          talented candidates with AI-powered recruitment.
+        </p>
+
+        <div class="benefits">
+          <div class="benefit">✦ Smart AI-powered job matching</div>
+          <div class="benefit">◎ A simpler recruitment experience</div>
+          <div class="benefit">↗ Opportunities built around your future</div>
+        </div>
+      </div>
+
+      <div class="footer">© 2026 HireLens · AI Recruitment Intelligence</div>
+    </section>
+
+    <section class="form-panel">
+      <div class="register-card">
+        <a class="mobile-brand" href="index.html">✦ HireLens</a>
+
+        <div class="top-label">GET STARTED FOR FREE</div>
+        <h2>Create your account</h2>
+        <p class="subtitle">Join HireLens and take the next step.</p>
+
+        <form id="registerForm">
+          <div class="field">
+            <label for="registerName">Full name</label>
+            <input id="registerName" name="name" type="text"
+                   placeholder="Enter your full name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="registerEmail">Email address</label>
+            <input id="registerEmail" name="email" type="email"
+                   placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label for="registerRole">I want to join as</label>
+            <div class="roles">
+              <label class="role-option">
+                <input type="radio" name="role" value="candidate" checked>
+                <span class="role-box">👤 Candidate</span>
+              </label>
+              <label class="role-option">
+                <input type="radio" name="role" value="recruiter">
+                <span class="role-box">💼 Recruiter</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field" id="companyField" hidden>
+            <label for="registerCompany">Company name</label>
+            <input id="registerCompany" name="company" type="text"
+                   placeholder="Enter your company name">
+          </div>
+
+          <div class="field">
+            <label for="registerPassword">Create password</label>
+            <input id="registerPassword" name="password" type="password"
+                   placeholder="At least 8 characters"
+                   autocomplete="new-password" minlength="8" required>
+          </div>
+
+          <div class="field">
+            <label for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password"
+                   placeholder="Enter password again" minlength="8" required>
+          </div>
+
+          <button class="submit-btn" id="registerButton" type="submit">
+            Create Account →
+          </button>
+
+          <div id="registerMessage" class="message" role="status"
+               aria-live="polite"></div>
+        </form>
+
+        <div class="login-link">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+
+        <div class="back-home">
+          <a href="index.html">← Back to Home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="portal.js"></script>
+  <script>
+    const roleInputs = document.querySelectorAll('input[name="role"]');
+    const companyField = document.getElementById('companyField');
+    const companyInput = document.getElementById('registerCompany');
+    const passwordInput = document.getElementById('registerPassword');
+    const confirmInput = document.getElementById('confirmPassword');
+    const form = document.getElementById('registerForm');
+
+    function updateRole() {
+      const recruiter = document.querySelector('input[name="role"]:checked').value === 'recruiter';
+      companyField.hidden = !recruiter;
+      companyInput.required = recruiter;
+    }
+
+    roleInputs.forEach(input => input.addEventListener('change', updateRole));
+
+    form.addEventListener('submit', function(event) {
+      if (passwordInput.value !== confirmInput.value) {
+        event.preventDefault();
+        confirmInput.setCustomValidity('Passwords do not match.');
+        confirmInput.reportValidity();
+      } else {
+        confirmInput.setCustomValidity('');
+      }
+    });
+
+    confirmInput.addEventListener('input', () => confirmInput.setCustomValidity(''));
+    updateRole();
+  </script>
+   <script src="register.js"></script>
+</body>
+</html>
+<script src="portal.js"></script>
+<script>
+    // Existing inline JavaScript
+</script>

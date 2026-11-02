@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Jobs | HireLens</title>
+  <link rel="stylesheet" href="portal.css">
+  <script src="portal.js" defer></script>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#f6f7fb;color:#252750;font-family:Inter,Arial,sans-serif}
+    .layout{display:flex;min-height:100vh}
+    .sidebar{width:245px;flex-shrink:0;background:#202454;color:#fff;padding:28px 18px}
+    .brand{font-size:25px;font-weight:800;letter-spacing:-1px;margin:0 0 38px 10px}
+    .brand span{color:#a5b4fc}
+    .nav-label{font-size:11px;color:#a7acd0;text-transform:uppercase;letter-spacing:1.5px;margin:24px 12px 12px}
+    .nav-link{display:block;padding:13px 14px;margin:5px 0;border-radius:10px;color:#dce0ff;text-decoration:none;font-size:14px}
+    .nav-link:hover,.nav-link.active{background:#41458a;color:#fff}
+    main{flex:1;min-width:0;padding:32px 4%}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}
+    h1{font-size:28px;margin:0 0 8px}
+    .muted{color:#7b8198;font-size:14px;line-height:1.6}
+    .user-chip{background:white;border:1px solid #e8eaf2;border-radius:25px;padding:10px 15px;font-size:13px}
+    .hero{background:linear-gradient(120deg,#353a85,#6658d3);color:white;padding:26px;border-radius:17px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .hero h2{font-size:23px;margin:0 0 9px}
+    .hero p{margin:0;color:#e5e6ff;line-height:1.6}
+    .btn{display:inline-block;background:#514dc7;color:white;text-decoration:none;border:0;border-radius:9px;padding:12px 17px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+    .btn:hover{background:#403ba9}
+    .btn.light{background:white;color:#4946a9}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:25px}
+    .stat{background:white;border:1px solid #e8eaf2;border-radius:14px;padding:20px}
+    .stat p{font-size:13px;color:#777f96;margin:0 0 12px}
+    .stat h3{font-size:28px;margin:0}
+    .panel{background:white;border:1px solid #e8eaf2;border-radius:15px;padding:22px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+    .section-head h2{font-size:19px;margin:0}
+    .search{width:100%;padding:12px;border:1px solid #dfe2ee;border-radius:9px;font-size:14px;margin-bottom:18px;outline:none}
+    .search:focus{border-color:#625bd4}
+    .job-list{display:grid;gap:13px}
+    .job-card{border:1px solid #e8eaf2;border-radius:12px;padding:19px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+    .job-card h3{font-size:16px;margin:0 0 7px;overflow-wrap:anywhere}
+    .company{font-size:13px;color:#777f96;margin-bottom:10px}
+    .tags{display:flex;flex-wrap:wrap;gap:6px}
+    .tag{background:#f0efff;color:#5750b8;padding:6px 9px;border-radius:6px;font-size:11px}
+    .status{display:inline-block;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e4f8ec;color:#207344}
+    .status.inactive{background:#f1f1f5;color:#62677b}
+    .job-actions{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+    .empty{padding:35px 20px;text-align:center;border:1px dashed #d6d9e8;border-radius:12px;color:#777f96;line-height:1.7}
+    #message{font-size:13px;margin-bottom:14px;color:#b42318}
+    @media(max-width:850px){.layout{display:block}.sidebar{width:auto;padding:20px}.brand{margin-bottom:18px}.sidebar nav{display:flex;flex-wrap:wrap;gap:5px}.nav-label{display:none}.nav-link{padding:10px;font-size:12px}main{padding:22px 16px}.topbar{align-items:flex-start;flex-direction:column}.hero{align-items:flex-start;flex-direction:column}}
+    @media(max-width:600px){.stats{grid-template-columns:1fr}.job-card{align-items:flex-start;flex-direction:column}.job-actions{align-items:flex-start}}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Hire<span>Lens</span></div>
+    <nav>
+      <div class="nav-label">Recruitment</div>
+      <a class="nav-link" href="recruiter-dashboard.html">▦ &nbsp; Dashboard</a>
+      <a class="nav-link active" href="manage-jobs.html">▤ &nbsp; Manage Jobs</a>
+      <a class="nav-link" href="create-job.html">＋ &nbsp; Create Job</a>
+      <a class="nav-link" href="ai-screening.html">✧ &nbsp; AI Screening</a>
+      <a class="nav-link" href="candidates.html">♙ &nbsp; Candidates</a>
+      <a class="nav-link" href="reports.html">▥ &nbsp; Reports</a>
+      <div class="nav-label">Account</div>
+      <a class="nav-link" href="#" data-logout>↪ &nbsp; Logout</a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <h1>Manage Jobs</h1>
+        <div class="muted">Create and review your recruitment openings.</div>
+      </div>
+      <div class="user-chip">👤 <span data-user-name>Recruiter</span></div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h2>Your recruitment workspace</h2>
+        <p>Keep your openings organized and find the right candidates.</p>
+      </div>
+      <a class="btn light" href="create-job.html">＋ Create New Job</a>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <p>Total Jobs Listed</p>
+        <h3 id="totalJobs">—</h3>
+      </div>
+      <div class="stat">
+        <p>Active Jobs</p>
+        <h3 id="activeJobs">—</h3>
+      </div>
+      <div class="stat">
+        <p>Inactive Jobs</p>
+        <h3 id="inactiveJobs">—</h3>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>Your Job Openings</h2>
+        <a class="btn" href="create-job.html">+ Add Job</a>
+      </div>
+
+      <div id="message" role="status"></div>
+      <input class="search" id="jobSearch" type="search" placeholder="Search by job title, company or skill...">
+
+      <div class="job-list" id="jobList">
+        <div class="empty">Loading job openings...</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+  const user = typeof getStoredUser === "function" ? getStoredUser() : null;
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (user.role && user.role.toLowerCase() !== "recruiter") {
+    window.location.href = "candidate_dashboard.html";
+    return;
+  }
+
+  const list = document.getElementById("jobList");
+  const message = document.getElementById("message");
+  const search = document.getElementById("jobSearch");
+  let myJobs = [];
+
+  function renderJobs() {
+    const query = search.value.trim().toLowerCase();
+
+    const filtered = myJobs.filter(job =>
+      [job.title, job.company, job.required_skills, job.description]
+        .join(" ").toLowerCase().includes(query)
+    );
+
+    list.replaceChildren();
+
+    if (!filtered.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = myJobs.length
+        ? "No jobs match your search."
+        : "You haven't posted any jobs yet. Click Create New Job to get started.";
+      list.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(job => {
+      const card = document.createElement("article");
+      card.className = "job-card";
+
+      const details = document.createElement("div");
+      details.style.flex = "1";
+
+      const title = document.createElement("h3");
+      title.textContent = job.title || "Untitled Position";
+
+      const company = document.createElement("div");
+      company.className = "company";
+      company.textContent = (job.company || "Company not specified") +
+        (job.location ? " · " + job.location : "");
+
+      const tags = document.createElement("div");
+      tags.className = "tags";
+
+      String(job.required_skills || "")
+        .split(",")
+        .map(skill => skill.trim())
+        .filter(Boolean)
+        .slice(0, 5)
+        .forEach(skill => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = skill;
+          tags.appendChild(tag);
+        });
+
+      details.append(title, company, tags);
+
+      const status = document.createElement("span");
+      const isActive = !job.status || String(job.status).toLowerCase() === "active";
+      status.className = "status" + (isActive ? "" : " inactive");
+      status.textContent = isActive ? "Active" : "Inactive";
+
+      const actions = document.createElement("div");
+      actions.className = "job-actions";
+      actions.appendChild(status);
+
+      const view = document.createElement("a");
+      view.className = "btn";
+      view.href = "create-job.html";
+      view.textContent = "Create Another Job";
+      actions.appendChild(view);
+
+      card.append(details, actions);
+      list.appendChild(card);
+    });
+  }
+
+  search.addEventListener("input", renderJobs);
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/api/jobs");
+    if (!response.ok) throw new Error("Could not fetch jobs");
+
+    const data = await response.json();
+    const allJobs = Array.isArray(data) ? data : (data.jobs || data.data || []);
+
+    // The backend may return every recruiter's jobs, so filter by logged-in recruiter.
+    myJobs = allJobs.filter(job =>
+      String(job.recruiter_id) === String(user.id)
+    );
+
+    const active = myJobs.filter(job =>
+      !job.status || String(job.status).toLowerCase() === "active"
+    ).length;
+
+    document.getElementById("totalJobs").textContent = myJobs.length;
+    document.getElementById("activeJobs").textContent = active;
+    document.getElementById("inactiveJobs").textContent = myJobs.length - active;
+
+    renderJobs();
+  } catch (error) {
+    message.textContent = "Could not load jobs. Check that the Flask backend is running.";
+    list.innerHTML = '<div class="empty">Unable to connect to the job server. Start the backend and refresh.</div>';
+  }
+});
+</script>
+</body>
+</html>

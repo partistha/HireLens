@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Jobs | HireLens</title>
+    <link rel="stylesheet" href="candidate-pages.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <a class="brand" href="candidate_dashboard.html">
+            <div class="brand-icon">H</div>
+            Hire<span>Lens</span>
+        </a>
+
+        <nav class="nav-menu">
+            <a href="candidate_dashboard.html">Dashboard</a>
+            <a class="active" href="find-jobs.html">Explore Jobs</a>
+            <a href="job-match.html">AI Job Match</a>
+            <a href="candidate-profile.html">My Profile</a>
+            <a href="applications.html">Applications</a>
+        </nav>
+    </header>
+
+    <main class="page-wrap">
+
+        <section class="welcome-banner">
+            <div class="eyebrow">Discover your next move</div>
+
+            <h1>Find the job that fits you.</h1>
+
+            <p>
+                Explore opportunities, discover roles that match your
+                skills, and take the next step in your career with HireLens.
+            </p>
+        </section>
+
+        <div class="section-heading">
+            <div>
+                <h2>Explore opportunities</h2>
+                <p class="muted">
+                    Find a role that matches your interests and skills.
+                </p>
+            </div>
+
+            <span class="status-pill" id="jobCount">
+                Loading opportunities...
+            </span>
+        </div>
+
+        <section class="search-panel">
+
+            <input
+                class="search-input"
+                id="searchInput"
+                type="search"
+                placeholder="⌕ Search job title, company or skill..."
+            >
+
+            <select
+                class="filter-select"
+                id="categoryFilter"
+                aria-label="Filter by category"
+            >
+                <option value="all">All categories</option>
+                <option value="Development">Development</option>
+                <option value="Data">Data & AI</option>
+                <option value="Security">Cybersecurity</option>
+                <option value="Design">UI/UX Design</option>
+            </select>
+
+            <button
+                class="primary-btn"
+                id="searchButton"
+                type="button"
+            >
+                Search Jobs ↗
+            </button>
+
+        </section>
+
+        <div class="section-heading">
+            <h2>Recommended opportunities</h2>
+            <span class="muted">Live job listings</span>
+        </div>
+
+        <section class="job-list" id="jobList">
+            <div class="empty-state">
+                Loading jobs from HireLens...
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="page-footer">
+        © 2026 HireLens · Find opportunities. Build your future.
+    </footer>
+
+   <script src="find-jobs.js"></script>
+
+</body>
+</html>

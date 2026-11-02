@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | HireLens</title>
+  <link rel="stylesheet" href="portal.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: #f7f8ff;
+      color: #202747;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .brand-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 9%;
+      color: white;
+      background: linear-gradient(145deg, #191f50, #30338e 65%, #5145cd);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #8175ff, #5145cd);
+    }
+
+    .brand-content { max-width: 510px; margin: auto 0; padding: 60px 0; }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 25px;
+      padding: 9px 13px;
+      border: 1px solid #ffffff30;
+      border-radius: 30px;
+      background: #ffffff10;
+      color: #ddd9ff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-content h1 {
+      font-size: clamp(39px, 4.2vw, 59px);
+      line-height: 1.13;
+    }
+
+    .brand-content h1 span { color: #aaa4ff; }
+
+    .brand-content p {
+      margin-top: 24px;
+      max-width: 440px;
+      color: #d0d3f2;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .features { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 29px; }
+
+    .feature {
+      padding: 10px 13px;
+      border: 1px solid #ffffff27;
+      border-radius: 10px;
+      background: #ffffff0d;
+      font-size: 12px;
+    }
+
+    .brand-footer { color: #c1c5e8; font-size: 12px; line-height: 1.8; }
+
+    .form-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 45px 7%;
+      background: #fafbff;
+    }
+
+    .login-card { width: 100%; max-width: 430px; }
+
+    .mobile-brand {
+      display: none;
+      color: #4338ca;
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 35px;
+      text-decoration: none;
+    }
+
+    .welcome-icon {
+      display: grid;
+      place-items: center;
+      width: 55px;
+      height: 55px;
+      margin-bottom: 25px;
+      border: 1px solid #e5e3ff;
+      border-radius: 17px;
+      background: #eeedff;
+      font-size: 26px;
+    }
+
+    .login-card h2 { font-size: 31px; }
+
+    .subtitle {
+      margin-top: 11px;
+      margin-bottom: 30px;
+      color: #777e94;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 11px;
+      color: #303853;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .role-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .role-option { position: relative; cursor: pointer; }
+
+    .role-option input { position: absolute; opacity: 0; }
+
+    .role-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      min-height: 54px;
+      padding: 12px;
+      border: 1px solid #e2e4f0;
+      border-radius: 12px;
+      background: white;
+      color: #5f6680;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .role-option input:checked + .role-box {
+      color: #4338ca;
+      border-color: #7166ed;
+      background: #f0efff;
+    }
+
+    .role-option input:focus-visible + .role-box {
+      outline: 2px solid #5145cd;
+      outline-offset: 3px;
+    }
+
+    .input-group { margin-bottom: 20px; }
+
+    .input-group input {
+      width: 100%;
+      height: 51px;
+      padding: 0 15px;
+      border: 1px solid #e0e3ef;
+      border-radius: 11px;
+      outline: none;
+      background: white;
+      color: #252b45;
+      font-size: 14px;
+    }
+
+    .input-group input:focus {
+      border-color: #7166ed;
+      box-shadow: 0 0 0 4px #5145cd12;
+    }
+
+    .password-wrap { position: relative; }
+
+    .password-wrap input { padding-right: 75px; }
+
+    .show-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: #5145cd;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .sign-in {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 52px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(110deg, #4f46e5, #704be7);
+      box-shadow: 0 8px 18px #5145cd2c;
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .sign-in:disabled { opacity: .65; cursor: wait; }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error { display: block; color: #a12828; background: #fff0f0; }
+    .message.success { display: block; color: #147548; background: #eaf9f0; }
+
+    .register-link, .back-row {
+      margin-top: 25px;
+      text-align: center;
+      color: #777e94;
+      font-size: 13px;
+    }
+
+    .register-link a, .back-home {
+      color: #5145cd;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    @media (max-width: 850px) {
+      .page { grid-template-columns: .85fr 1.15fr; }
+      .brand-panel { padding: 35px 8%; }
+      .brand-content h1 { font-size: 39px; }
+      .form-panel { padding: 35px 6%; }
+    }
+
+    @media (max-width: 650px) {
+      .page { display: block; }
+      .brand-panel { display: none; }
+      .form-panel { min-height: 100vh; padding: 35px 23px; }
+      .mobile-brand { display: block; }
+      .login-card h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="brand-panel">
+      <a class="brand" href="index.html">
+        <span class="brand-icon">H</span>
+        <span>HireLens</span>
+      </a>
+
+      <div class="brand-content">
+        <span class="eyebrow">AI-POWERED RECRUITMENT</span>
+        <h1>Hire smarter.<br><span>Find your future.</span></h1>
+        <p>Your AI-powered recruitment and career matching platform. Discover opportunities and connect talent with the right jobs.</p>
+        <div class="features">
+          <span class="feature">✦ AI Recruitment</span>
+          <span class="feature">◎ Smart Job Matching</span>
+          <span class="feature">↗ Career Growth</span>
+        </div>
+      </div>
+
+      <div class="brand-footer">© 2026 HireLens · AI Recruitment Intelligence</div>
+    </section>
+
+    <section class="form-panel">
+      <div class="login-card">
+        <a class="mobile-brand" href="index.html">✦ HireLens</a>
+        <div class="welcome-icon">👋</div>
+        <h2>Welcome back</h2>
+        <p class="subtitle">Sign in to continue to your HireLens account.</p>
+
+        <form id="loginForm">
+          <label class="field-label">Select your account type</label>
+
+          <div class="role-options">
+            <label class="role-option">
+              <input type="radio" name="role" value="candidate" checked>
+              <span class="role-box">👤 Candidate</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="recruiter">
+              <span class="role-box">💼 Recruiter</span>
+            </label>
+          </div>
+
+          <div class="input-group">
+            <label class="field-label" for="loginEmail">Email address</label>
+            <input type="email" id="loginEmail" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="input-group">
+            <label class="field-label" for="loginPassword">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="loginPassword" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button class="show-password" type="button" id="togglePassword">Show</button>
+            </div>
+          </div>
+
+          <button class="sign-in" type="submit" id="loginButton">Sign In <span>→</span></button>
+          <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="register-link">Don't have an account? <a href="register.html">Create an account</a></div>
+        <div class="back-row"><a class="back-home" href="index.html">← Back to Home</a></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="portal.js"></script>
+  <script src="login.js"></script>
+  
+  <script>
+    const passwordInput = document.getElementById("loginPassword");
+    const togglePassword = document.getElementById("togglePassword");
+
+    togglePassword.addEventListener("click", function () {
+      const showing = passwordInput.type === "text";
+      passwordInput.type = showing ? "password" : "text";
+      togglePassword.textContent = showing ? "Show" : "Hide";
+    });
+  </script>
+</body>
+</html>

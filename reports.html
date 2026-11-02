@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports & Analytics | HireLens</title>
+<link rel="stylesheet" href="portal.css">
+<script src="portal.js" defer></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f6f7fb;color:#252750;font-family:Inter,Arial,sans-serif}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;flex-shrink:0;background:#202454;color:white;padding:28px 18px}
+.brand{font-size:25px;font-weight:800;margin:0 0 38px 10px}
+.brand span{color:#a5b4fc}
+.nav-label{font-size:11px;color:#a7acd0;text-transform:uppercase;letter-spacing:1.5px;margin:24px 12px 12px}
+.nav-link{display:block;padding:13px 14px;margin:5px 0;border-radius:10px;color:#dce0ff;text-decoration:none;font-size:14px}
+.nav-link:hover,.nav-link.active{background:#41458a;color:white}
+main{flex:1;min-width:0;padding:32px 4%}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}
+h1{font-size:28px;margin:0 0 8px}
+h2{font-size:18px;margin:0 0 8px}
+.muted{color:#7b8198;font-size:13px;line-height:1.6}
+.user-chip{background:white;border:1px solid #e8eaf2;border-radius:25px;padding:10px 15px;font-size:13px}
+.hero{background:linear-gradient(120deg,#353a85,#6658d3);padding:26px;border-radius:16px;color:white;margin-bottom:22px}
+.hero h2{font-size:23px}
+.hero p{color:#e5e6ff;line-height:1.6;margin-bottom:0}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:22px}
+.card,.panel{background:white;border:1px solid #e8eaf2;border-radius:14px;padding:21px}
+.stat-label{font-size:12px;color:#7b8198}
+.stat-value{font-size:28px;font-weight:800;margin:12px 0 6px}
+.stat-note{font-size:11px;color:#858ba0}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+.panel{margin-bottom:18px}
+.bar-row{margin-top:21px}
+.bar-label{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:9px}
+.track{height:9px;background:#eeeef6;border-radius:20px;overflow:hidden}
+.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#514dc7,#9386ff);transition:width .4s}
+.table-wrap{overflow-x:auto;margin-top:15px}
+table{border-collapse:collapse;width:100%;min-width:600px}
+th,td{text-align:left;padding:14px 10px;border-bottom:1px solid #eeeef5;font-size:12px}
+th{font-size:10px;text-transform:uppercase;color:#858ba0;letter-spacing:.6px}
+.pill{display:inline-block;background:#e6f7ed;color:#207344;padding:5px 9px;border-radius:20px;font-size:11px}
+button{border:0;border-radius:9px;padding:11px 15px;font-size:13px;font-weight:700;cursor:pointer}
+.primary{background:#514dc7;color:white}
+.primary:hover{background:#403ba8}
+.notice{background:#fafaff;padding:13px;border-radius:9px;font-size:12px;color:#737a92;line-height:1.6;margin-top:15px}
+.empty{padding:20px 0;text-align:center;color:#858ba0;font-size:13px}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}}
+@media(max-width:850px){.layout{display:block}.sidebar{width:auto;padding:20px}.brand{margin-bottom:18px}.sidebar nav{display:flex;flex-wrap:wrap;gap:5px}.nav-label{display:none}.nav-link{padding:10px;font-size:12px}main{padding:22px 16px}.topbar{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}.hero{padding:20px}}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">Hire<span>Lens</span></div>
+  <nav>
+    <div class="nav-label">Recruitment</div>
+    <a class="nav-link" href="recruiter-dashboard.html">▦ &nbsp; Dashboard</a>
+    <a class="nav-link" href="manage-jobs.html">▤ &nbsp; Manage Jobs</a>
+    <a class="nav-link" href="create-job.html">＋ &nbsp; Create Job</a>
+    <a class="nav-link" href="ai-screening.html">✧ &nbsp; AI Screening</a>
+    <a class="nav-link" href="candidates.html">♙ &nbsp; Candidates</a>
+    <a class="nav-link active" href="reports.html">▥ &nbsp; Reports</a>
+    <div class="nav-label">Account</div>
+    <a class="nav-link" href="#" data-logout>↪ &nbsp; Logout</a>
+  </nav>
+</aside>
+
+<main>
+
+<header class="topbar">
+  <div>
+    <h1>Recruitment Reports</h1>
+    <div class="muted">Monitor your recruitment performance and hiring activity.</div>
+  </div>
+  <div class="user-chip">👤 <span data-user-name>Recruiter</span></div>
+</header>
+
+<section class="hero">
+  <h2>Your recruitment overview 📊</h2>
+  <p>Track job openings, candidate applications and recruitment progress from one dashboard.</p>
+</section>
+
+<h2 style="margin-bottom:14px">Job Statistics</h2>
+<section class="stats">
+  <div class="card">
+    <div class="stat-label">Total Job Posts</div>
+    <div class="stat-value" id="totalJobs">0</div>
+    <div class="stat-note">Your job openings</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">Active Jobs</div>
+    <div class="stat-value" id="activeJobs">0</div>
+    <div class="stat-note">Currently active</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">Inactive Jobs</div>
+    <div class="stat-value" id="inactiveJobs">0</div>
+    <div class="stat-note">Currently inactive</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">Total Applications</div>
+    <div class="stat-value" id="totalApplications">0</div>
+    <div class="stat-note">Applications received</div>
+  </div>
+</section>
+
+<h2 style="margin-bottom:14px">Candidate Statistics</h2>
+<section class="stats">
+  <div class="card">
+    <div class="stat-label">Shortlisted</div>
+    <div class="stat-value" id="shortlistedCount">0</div>
+    <div class="stat-note">Candidates shortlisted</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">Interviews</div>
+    <div class="stat-value" id="interviewCount">0</div>
+    <div class="stat-note">Interview stage</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">Rejected</div>
+    <div class="stat-value" id="rejectedCount">0</div>
+    <div class="stat-note">Rejected applications</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">Hired</div>
+    <div class="stat-value" id="hiredCount">0</div>
+    <div class="stat-note">Successfully hired</div>
+  </div>
+</section>
+
+<div class="columns">
+  <section class="panel">
+    <h2>Job Status Overview</h2>
+    <p class="muted">Distribution of your job postings.</p>
+
+    <div class="bar-row">
+      <div class="bar-label"><span>Active Jobs</span><strong id="activeLabel">0</strong></div>
+      <div class="track"><div class="fill" id="activeBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label"><span>Inactive Jobs</span><strong id="inactiveLabel">0</strong></div>
+      <div class="track"><div class="fill" id="inactiveBar" style="width:0%"></div></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Recruitment Insights</h2>
+    <p class="muted">Summary generated from your available data.</p>
+    <div class="bar-row">
+      <strong id="insightHeading">Loading insights...</strong>
+      <p class="muted" id="insightText">Fetching recruitment statistics.</p>
+    </div>
+    <div class="notice" id="insightNotice">Recruitment insights will update after data loads.</div>
+  </section>
+</div>
+
+<section class="panel">
+  <h2>Application Status Analytics</h2>
+  <p class="muted">Track candidates at every recruitment stage.</p>
+
+  <div class="bar-row">
+    <div class="bar-label"><span>Pending</span><strong id="pendingLabel">0</strong></div>
+    <div class="track"><div class="fill" id="pendingBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="bar-row">
+    <div class="bar-label"><span>Shortlisted</span><strong id="shortlistedLabel">0</strong></div>
+    <div class="track"><div class="fill" id="shortlistedBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="bar-row">
+    <div class="bar-label"><span>Interview</span><strong id="interviewLabel">0</strong></div>
+    <div class="track"><div class="fill" id="interviewBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="bar-row">
+    <div class="bar-label"><span>Rejected</span><strong id="rejectedLabel">0</strong></div>
+    <div class="track"><div class="fill" id="rejectedBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="bar-row">
+    <div class="bar-label"><span>Hired</span><strong id="hiredLabel">0</strong></div>
+    <div class="track"><div class="fill" id="hiredBar" style="width:0%"></div></div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Job Performance</h2>
+  <p class="muted">View your published jobs and export recruitment data.</p>
+
+  <div style="margin-top:16px">
+    <button class="primary" id="exportButton" type="button">↓ Export Complete CSV Report</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Company</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Posted</th>
+        </tr>
+      </thead>
+      <tbody id="jobRows">
+        <tr><td colspan="5" class="empty">Loading job data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notice" id="reportMessage" role="status" aria-live="polite">
+    Connecting to HireLens database...
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+  const API_URL = "http://127.0.0.1:5000/api";
+
+  const user = typeof getStoredUser === "function"
+    ? getStoredUser()
+    : JSON.parse(localStorage.getItem("hireLensUser") || "null");
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (user.role && user.role.toLowerCase() !== "recruiter") {
+    window.location.href = "candidate_dashboard.html";
+    return;
+  }
+
+  const recruiterId = user.id || user.user_id || user.recruiter_id;
+
+  const rows = document.getElementById("jobRows");
+  const message = document.getElementById("reportMessage");
+
+  let jobs = [];
+  let applications = [];
+
+  function display(id, value) {
+    document.getElementById(id).textContent = value;
+  }
+
+  function isActive(job) {
+    return String(job.status || "active").toLowerCase() === "active";
+  }
+
+  function csvEscape(value) {
+    return '"' + String(value ?? "").replace(/"/g, '""') + '"';
+  }
+
+  function updateReport() {
+
+    const active = jobs.filter(isActive).length;
+    const inactive = jobs.length - active;
+    const totalJobs = jobs.length;
+
+    display("totalJobs", totalJobs);
+    display("activeJobs", active);
+    display("inactiveJobs", inactive);
+
+    const activePercent = totalJobs
+      ? Math.round(active / totalJobs * 100) : 0;
+
+    const inactivePercent = totalJobs
+      ? Math.round(inactive / totalJobs * 100) : 0;
+
+    display("activeLabel", active + " (" + activePercent + "%)");
+    display("inactiveLabel", inactive + " (" + inactivePercent + "%)");
+
+    document.getElementById("activeBar").style.width = activePercent + "%";
+    document.getElementById("inactiveBar").style.width = inactivePercent + "%";
+
+    const statusCounts = {
+      Pending: 0,
+      Shortlisted: 0,
+      Interview: 0,
+      Rejected: 0,
+      Hired: 0
+    };
+
+    applications.forEach(app => {
+      const status = Object.keys(statusCounts).find(
+        key => key.toLowerCase() === String(app.status || "Pending").toLowerCase()
+      );
+
+      if (status) statusCounts[status]++;
+    });
+
+    display("totalApplications", applications.length);
+    display("shortlistedCount", statusCounts.Shortlisted);
+    display("interviewCount", statusCounts.Interview);
+    display("rejectedCount", statusCounts.Rejected);
+    display("hiredCount", statusCounts.Hired);
+
+    Object.entries(statusCounts).forEach(([status, count]) => {
+      const key = status.toLowerCase();
+
+      const percent = applications.length
+        ? Math.round(count / applications.length * 100)
+        : 0;
+
+      display(key + "Label", count + " (" + percent + "%)");
+
+      document.getElementById(key + "Bar").style.width =
+        percent + "%";
+    });
+
+    if (!totalJobs && !applications.length) {
+      display("insightHeading", "No recruitment activity yet");
+      display("insightText", "Create your first job and start receiving applications.");
+    } else {
+      display("insightHeading", totalJobs + " job posting(s) found");
+      display(
+        "insightText",
+        applications.length + " application(s) received, " +
+        statusCounts.Shortlisted + " shortlisted and " +
+        statusCounts.Hired + " hired."
+      );
+    }
+
+    rows.replaceChildren();
+
+    if (!jobs.length) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = 5;
+      td.className = "empty";
+      td.textContent = "No job postings found.";
+      tr.appendChild(td);
+      rows.appendChild(tr);
+    } else {
+      jobs.forEach(job => {
+        const tr = document.createElement("tr");
+
+        [
+          job.title || "Untitled Job",
+          job.company || "—",
+          job.location || "—"
+        ].forEach(value => {
+          const td = document.createElement("td");
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+
+        const statusCell = document.createElement("td");
+        const pill = document.createElement("span");
+        pill.className = "pill";
+        pill.textContent = isActive(job) ? "Active" : "Inactive";
+
+        if (!isActive(job)) {
+          pill.style.background = "#f0f0f4";
+          pill.style.color = "#656579";
+        }
+
+        statusCell.appendChild(pill);
+        tr.appendChild(statusCell);
+
+        const dateCell = document.createElement("td");
+
+        if (job.created_at) {
+          const date = new Date(job.created_at);
+          dateCell.textContent = isNaN(date.getTime())
+            ? String(job.created_at)
+            : date.toLocaleDateString();
+        } else {
+          dateCell.textContent = "—";
+        }
+
+        tr.appendChild(dateCell);
+        rows.appendChild(tr);
+      });
+    }
+  }
+
+  async function loadJobs() {
+    const response = await fetch(API_URL + "/jobs");
+
+    if (!response.ok) {
+      throw new Error("Could not load jobs.");
+    }
+
+    const data = await response.json();
+    const allJobs = Array.isArray(data)
+      ? data
+      : (data.jobs || data.data || []);
+
+    jobs = allJobs.filter(
+      job => String(job.recruiter_id) === String(recruiterId)
+    );
+  }
+
+  async function loadApplications() {
+    const response = await fetch(
+      API_URL + "/recruiter/" + recruiterId + "/applications"
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not load applications.");
+    }
+
+    const data = await response.json();
+
+    applications = Array.isArray(data)
+      ? data
+      : (data.applications || []);
+  }
+
+  document.getElementById("exportButton").addEventListener("click", function () {
+
+    const headers = [
+      "Record Type",
+      "ID",
+      "Candidate Name",
+      "Candidate Email",
+      "Job Title",
+      "Company",
+      "Location",
+      "Match Score",
+      "Status",
+      "Created At"
+    ];
+
+    const lines = [headers.map(csvEscape).join(",")];
+
+    jobs.forEach(job => {
+      lines.push([
+        "Job",
+        job.id,
+        "",
+        "",
+        job.title,
+        job.company,
+        job.location,
+        "",
+        job.status || "Active",
+        job.created_at
+      ].map(csvEscape).join(","));
+    });
+
+    applications.forEach(app => {
+      lines.push([
+        "Application",
+        app.application_id,
+        app.candidate_name,
+        app.candidate_email,
+        app.job_title,
+        "",
+        "",
+        app.match_score,
+        app.status || "Pending",
+        app.created_at
+      ].map(csvEscape).join(","));
+    });
+
+    if (!jobs.length && !applications.length) {
+      message.textContent = "No data available to export.";
+      return;
+    }
+
+    const blob = new Blob(
+      ["\uFEFF" + lines.join("\r\n")],
+      {type: "text/csv;charset=utf-8;"}
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "HireLens_Complete_Recruitment_Report.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    message.textContent = "Complete recruitment CSV report exported successfully.";
+  });
+
+  async function loadReport() {
+
+    if (!recruiterId) {
+      message.textContent = "Recruiter ID not found. Please login again.";
+      return;
+    }
+
+    message.textContent = "Loading recruitment data...";
+
+    try {
+      await loadJobs();
+    } catch (error) {
+      console.error("Jobs loading error:", error);
+      jobs = [];
+    }
+
+    try {
+      await loadApplications();
+    } catch (error) {
+      console.error("Applications loading error:", error);
+      applications = [];
+    }
+
+    updateReport();
+
+    if (jobs.length || applications.length) {
+      message.textContent =
+        "Reports loaded. Jobs: " + jobs.length +
+        " | Applications: " + applications.length + ".";
+    } else {
+      message.textContent =
+        "No data loaded. Check that the Flask backend is running and your recruiter account has records.";
+    }
+  }
+
+  await loadReport();
+
+});
+</script>
+
+</body>
+</html>

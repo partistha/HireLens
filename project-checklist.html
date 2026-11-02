@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireLens | Project Testing Checklist</title>
+  <link rel="stylesheet" href="portal.css">
+  <style>
+    body {
+      margin: 0;
+      background: #f5f6fc;
+      color: #202744;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    .topbar {
+      background: #fff;
+      padding: 20px 6%;
+      border-bottom: 1px solid #e5e7f1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: #4338ca;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .topbar a {
+      color: #5145cd;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .intro, .panel {
+      background: white;
+      border: 1px solid #e6e8f2;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px #242c5b08;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 29px;
+    }
+
+    .muted {
+      color: #727991;
+      line-height: 1.7;
+    }
+
+    .progress {
+      height: 9px;
+      background: #e9eaf5;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px 0 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+      transition: width .2s;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      color: #555d76;
+    }
+
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f1f7;
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+    .item input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: #5145cd;
+      cursor: pointer;
+    }
+
+    .item strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .item small {
+      color: #777e92;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 17px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #5145cd;
+      color: white;
+    }
+
+    .secondary {
+      background: #eeedff;
+      color: #4338ca;
+    }
+
+    .warning {
+      background: #fff0ed;
+      color: #b93825;
+    }
+
+    .notice {
+      padding: 14px;
+      background: #f0f3ff;
+      color: #39418a;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 550px) {
+      .intro, .panel {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">HireLens <span style="color:#252b45">/ QA Checklist</span></div>
+    <a href="index.html">← Back to Home</a>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <h1>Project Testing Checklist</h1>
+      <p class="muted">
+        Before your college demonstration, test each feature manually.
+        Tick an item only after you have actually tested it.
+      </p>
+
+      <div class="progress">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="progress-text" id="progressText">0 of 12 tests completed</div>
+    </section>
+
+    <section class="panel">
+      <h2>1. Pages and Navigation</h2>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Home page</strong><small>Open index.html and check the navigation and layout.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Registration</strong><small>Test candidate and recruiter registration with valid and invalid inputs.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Login and logout</strong><small>Check both roles and confirm logout returns to the login page.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Candidate pages</strong><small>Test dashboard, profile, Find Jobs, AI Job Match and Applications links.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Recruiter pages</strong><small>Test dashboard, Manage Jobs, Create Job, AI Screening, Candidates and Reports.</small></span>
+      </label>
+    </section>
+
+    <section class="panel">
+      <h2>2. Backend and Database</h2>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Flask server</strong><small>Run Backend/app.py and confirm the server starts without errors.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Database health</strong><small>Open http://127.0.0.1:5000/api/health and verify the database connection.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Registration and login API</strong><small>Check that users are saved to MySQL and can log in.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Create and view jobs</strong><small>Create a recruiter job and verify it appears in Manage Jobs and Find Jobs.</small></span>
+      </label>
+    </section>
+
+    <section class="panel">
+      <h2>3. Final Demo Checks</h2>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Role permissions</strong><small>Verify a candidate cannot use recruiter-only pages and vice versa.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Empty states and errors</strong><small>Check what appears when there are no jobs or the server is stopped.</small></span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span><strong>Presentation readiness</strong><small>Prepare sample accounts, a sample job and a short project explanation.</small></span>
+      </label>
+
+      <div class="buttons">
+        <button class="primary" id="saveBtn">Save Checklist</button>
+        <button class="secondary" id="resetBtn">Reset Checklist</button>
+        <button class="warning" id="printBtn">Print / Save as PDF</button>
+      </div>
+    </section>
+
+    <div class="notice">
+      <strong>Important:</strong> This checklist only tracks your manual testing.
+      It does not automatically verify APIs or database records. Candidate
+      profiles and application statuses in the current prototype may use
+      browser localStorage instead of MySQL.
+    </div>
+  </main>
+
+  <script>
+    const checks = [...document.querySelectorAll('input[type="checkbox"]')];
+    const fill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const storageKey = 'hireLensProjectChecklist';
+
+    function updateProgress() {
+      const completed = checks.filter(check => check.checked).length;
+      fill.style.width = (completed / checks.length * 100) + '%';
+      progressText.textContent =
+        `${completed} of ${checks.length} tests completed`;
+    }
+
+    function saveChecklist() {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(checks.map(check => check.checked))
+      );
+      updateProgress();
+    }
+
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      checks.forEach((check, index) => {
+        check.checked = saved[index] === true;
+      });
+    } catch (error) {
+      console.warn('Could not load saved checklist.', error);
+    }
+
+    checks.forEach(check => {
+      check.addEventListener('change', () => {
+        saveChecklist();
+      });
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      saveChecklist();
+      alert('Checklist saved in this browser.');
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (confirm('Reset all checklist items?')) {
+        checks.forEach(check => check.checked = false);
+        saveChecklist();
+      }
+    });
+
+    document.getElementById('printBtn').addEventListener('click', () => {
+      window.print();
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>

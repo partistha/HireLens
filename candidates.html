@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidates | HireLens</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="portal.css">
+<script src="portal.js" defer></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f6f7fb;color:#252750;font-family:Inter,Arial,sans-serif}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;flex-shrink:0;background:#202454;color:white;padding:28px 18px}
+.brand{font-size:25px;font-weight:800;margin:0 0 38px 10px}
+.brand span{color:#a5b4fc}
+.nav-label{font-size:11px;color:#a7acd0;text-transform:uppercase;letter-spacing:1.5px;margin:24px 12px 12px}
+.nav-link{display:block;padding:13px 14px;margin:5px 0;border-radius:10px;color:#dce0ff;text-decoration:none;font-size:14px}
+.nav-link:hover,.nav-link.active{background:#41458a;color:white}
+main{flex:1;min-width:0;padding:32px 4%}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}
+h1{font-size:28px;margin:0 0 8px}
+h2{font-size:19px;margin:0 0 8px}
+.muted{color:#7b8198;font-size:14px;line-height:1.6}
+.user-chip{background:white;border:1px solid #e8eaf2;border-radius:25px;padding:10px 15px;font-size:13px}
+.hero{background:linear-gradient(120deg,#353a85,#6658d3);padding:26px;border-radius:16px;color:white;margin-bottom:23px}
+.hero h2{font-size:23px;margin-bottom:9px}
+.hero p{margin:0;color:#e5e6ff;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:22px}
+.stat,.panel{background:white;border:1px solid #e8eaf2;border-radius:14px;padding:22px}
+.stat-label{font-size:13px;color:#7b8198}
+.stat-number{font-size:29px;font-weight:800;margin:11px 0 5px}
+.stat-note{font-size:12px;color:#858ba0}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+.toolbar input,.toolbar select{flex:1;min-width:170px;padding:12px;border:1px solid #dfe2ee;border-radius:9px;background:white;color:#252750;font:inherit;font-size:13px}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:850px}
+th,td{text-align:left;padding:15px 12px;border-bottom:1px solid #eeeef5;font-size:13px;vertical-align:middle}
+th{font-size:11px;color:#858ba0;text-transform:uppercase;background:#fafaff}
+.person{display:flex;align-items:center;gap:11px}
+.avatar{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:#eeedff;color:#514dc7;font-weight:800;flex-shrink:0}
+.person strong{display:block;margin-bottom:5px}
+.person small{font-size:11px;color:#858ba0}
+.status{display:inline-block;padding:6px 10px;border-radius:20px;background:#fff3df;color:#9b6414;font-size:11px;margin-bottom:7px;white-space:nowrap}
+.status-select{display:block;width:125px;padding:7px;border:1px solid #dfe2ee;border-radius:7px;background:white;color:#252750;font-size:12px;cursor:pointer}
+.status-select:disabled{opacity:.6;cursor:wait}
+.view-btn{border:0;border-radius:7px;background:#eeedff;color:#514dc7;padding:9px 12px;font-weight:700;cursor:pointer;font-size:12px}
+.view-btn:hover{background:#514dc7;color:white}
+.empty{text-align:center;padding:35px 12px;color:#7b8198;font-size:13px;line-height:1.8}
+.count{font-size:13px;color:#7b8198;margin-bottom:12px}
+.notice{background:#fafaff;border-radius:9px;padding:13px;margin-top:15px;color:#737a92;font-size:12px;line-height:1.6}
+
+/* PROFILE MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,23,55,.65);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}
+.modal-overlay.show{display:flex}
+.profile-modal{background:white;width:100%;max-width:650px;max-height:90vh;overflow-y:auto;border-radius:18px;padding:26px;box-shadow:0 20px 70px #1113}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:22px}
+.modal-header h2{font-size:22px;margin:0 0 6px}
+.close-btn{border:0;background:#f0f1f7;border-radius:9px;width:35px;height:35px;font-size:20px;cursor:pointer;color:#252750}
+.profile-heading{display:flex;align-items:center;gap:15px;padding:18px;background:#f7f7ff;border-radius:13px;margin-bottom:20px}
+.profile-avatar{width:60px;height:60px;display:grid;place-items:center;border-radius:16px;background:#514dc7;color:white;font-size:23px;font-weight:800}
+.profile-heading h3{margin:0 0 6px;font-size:19px}
+.profile-heading p{margin:0;color:#7b8198;font-size:13px;overflow-wrap:anywhere}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.detail-card{padding:14px;border:1px solid #e8eaf2;border-radius:11px;min-width:0}
+.detail-label{font-size:11px;color:#858ba0;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.detail-value{font-size:14px;font-weight:700;overflow-wrap:anywhere;white-space:pre-wrap}
+.profile-section{margin-top:20px}
+.profile-section h3{font-size:15px;margin:0 0 12px}
+.extra-detail{padding:13px;background:#fafaff;border-radius:9px;margin-bottom:9px}
+.extra-detail .detail-label{margin-bottom:6px}
+.resume-link{color:#514dc7;font-weight:700;text-decoration:none}
+.resume-link:hover{text-decoration:underline}
+.modal-note{font-size:12px;color:#858ba0;line-height:1.6;margin-top:18px;padding:12px;background:#fafaff;border-radius:9px}
+@media(max-width:850px){
+.layout{display:block}.sidebar{width:auto;padding:20px}.brand{margin-bottom:18px}
+.sidebar nav{display:flex;flex-wrap:wrap;gap:5px}.nav-label{display:none}
+.nav-link{padding:10px;font-size:12px}main{padding:22px 16px}
+.topbar{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:520px){
+.stats{grid-template-columns:1fr}.hero{padding:21px}.panel,.stat{padding:17px}
+.detail-grid{grid-template-columns:1fr}.profile-modal{padding:19px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+<div class="brand">Hire<span>Lens</span></div>
+<nav>
+<div class="nav-label">Recruitment</div>
+<a class="nav-link" href="recruiter-dashboard.html">▦ &nbsp; Dashboard</a>
+<a class="nav-link" href="manage-jobs.html">▤ &nbsp; Manage Jobs</a>
+<a class="nav-link" href="create-job.html">＋ &nbsp; Create Job</a>
+<a class="nav-link" href="ai-screening.html">✧ &nbsp; AI Screening</a>
+<a class="nav-link active" href="candidates.html">♙ &nbsp; Candidates</a>
+<a class="nav-link" href="reports.html">▥ &nbsp; Reports</a>
+<div class="nav-label">Account</div>
+<a class="nav-link" href="#" data-logout>↪ &nbsp; Logout</a>
+</nav>
+</aside>
+
+<main>
+<header class="topbar">
+<div>
+<h1>Candidates</h1>
+<div class="muted">Review applications and discover the right candidates.</div>
+</div>
+<div class="user-chip">👤 <span data-user-name>Recruiter</span></div>
+</header>
+
+<section class="hero">
+<h2>Discover potential. Find the right fit.</h2>
+<p>View candidates who have applied to your published job openings.</p>
+</section>
+
+<section class="stats">
+<div class="stat">
+<div class="stat-label">Total Applications</div>
+<div class="stat-number" id="totalCandidates">0</div>
+<div class="stat-note">Applications received</div>
+</div>
+<div class="stat">
+<div class="stat-label">Unique Candidates</div>
+<div class="stat-number" id="uniqueCandidates">0</div>
+<div class="stat-note">Different applicants</div>
+</div>
+<div class="stat">
+<div class="stat-label">Average Match Score</div>
+<div class="stat-number" id="averageMatch">0%</div>
+<div class="stat-note">Across received applications</div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Candidate Applications</h2>
+<p class="muted">Search candidates and filter applications by job opening.</p>
+
+<div class="toolbar">
+<input type="search" id="searchInput" placeholder="Search candidate or email...">
+<select id="jobFilter">
+<option value="all">All jobs</option>
+</select>
+</div>
+
+<div class="count" id="resultCount">Loading applications...</div>
+
+<div class="table-wrap" id="tableWrap">
+<table>
+<thead>
+<tr>
+<th>Candidate</th>
+<th>Applied Job</th>
+<th>Match Score</th>
+<th>Application Status</th>
+<th>Application ID</th>
+<th>Profile</th>
+</tr>
+</thead>
+<tbody id="candidateRows"></tbody>
+</table>
+</div>
+
+<div id="emptyState" class="empty" hidden>
+<div style="font-size:32px">♙</div>
+<strong>No applications found</strong>
+<p>Applications submitted by candidates will appear here.</p>
+</div>
+
+<div id="statusMessage" class="notice">Connecting to HireLens database...</div>
+</section>
+</main>
+</div>
+
+<!-- Candidate Profile Modal -->
+<div class="modal-overlay" id="profileModal">
+<div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+<div class="modal-header">
+<div>
+<h2 id="profileTitle">Candidate Profile</h2>
+<div class="muted">Candidate and application information</div>
+</div>
+<button class="close-btn" id="closeModal" aria-label="Close">&times;</button>
+</div>
+
+<div id="profileContent"></div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function(){
+
+const API_URL="http://127.0.0.1:5000";
+
+function getUser(){
+if(typeof getStoredUser==="function"){
+return getStoredUser();
+}
+return JSON.parse(
+localStorage.getItem("hireLensUser")||
+localStorage.getItem("hirelens_user")||
+"null"
+);
+}
+
+const user=getUser();
+
+if(!user){
+window.location.href="login.html";
+return;
+}
+
+if(user.role && user.role.toLowerCase()!=="recruiter"){
+window.location.href="candidate_dashboard.html";
+return;
+}
+
+const recruiterId=user.id||user.user_id||user.recruiter_id;
+
+const rows=document.getElementById("candidateRows");
+const searchInput=document.getElementById("searchInput");
+const jobFilter=document.getElementById("jobFilter");
+const resultCount=document.getElementById("resultCount");
+const emptyState=document.getElementById("emptyState");
+const tableWrap=document.getElementById("tableWrap");
+const statusMessage=document.getElementById("statusMessage");
+const profileModal=document.getElementById("profileModal");
+const profileContent=document.getElementById("profileContent");
+
+let applications=[];
+
+function addCell(row,value){
+const cell=document.createElement("td");
+cell.textContent=value??"—";
+row.appendChild(cell);
+return cell;
+}
+
+function populateJobFilter(){
+const previousValue=jobFilter.value;
+const uniqueJobs=new Map();
+
+applications.forEach(app=>{
+uniqueJobs.set(String(app.job_id),app.job_title||"Untitled Job");
+});
+
+jobFilter.replaceChildren();
+
+const allOption=document.createElement("option");
+allOption.value="all";
+allOption.textContent="All jobs";
+jobFilter.appendChild(allOption);
+
+uniqueJobs.forEach((title,id)=>{
+const option=document.createElement("option");
+option.value=id;
+option.textContent=title;
+jobFilter.appendChild(option);
+});
+
+if([...jobFilter.options].some(option=>option.value===previousValue)){
+jobFilter.value=previousValue;
+}
+}
+
+// Safely create profile detail fields
+function addDetail(container,label,value){
+if(value===undefined||value===null||value==="")return;
+
+const card=document.createElement("div");
+card.className="detail-card";
+
+const title=document.createElement("div");
+title.className="detail-label";
+title.textContent=label;
+
+const content=document.createElement("div");
+content.className="detail-value";
+content.textContent=Array.isArray(value)?value.join(", "):String(value);
+
+card.append(title,content);
+container.appendChild(card);
+}
+
+// Open candidate profile
+function openCandidateProfile(app){
+
+profileContent.replaceChildren();
+
+const heading=document.createElement("div");
+heading.className="profile-heading";
+
+const avatar=document.createElement("div");
+avatar.className="profile-avatar";
+avatar.textContent=(app.candidate_name||"C").charAt(0).toUpperCase();
+
+const identity=document.createElement("div");
+const name=document.createElement("h3");
+name.textContent=app.candidate_name||"Unknown Candidate";
+
+const email=document.createElement("p");
+email.textContent=app.candidate_email||"Email not available";
+
+identity.append(name,email);
+heading.append(avatar,identity);
+profileContent.appendChild(heading);
+
+// Application information
+const applicationTitle=document.createElement("h3");
+applicationTitle.textContent="Application Overview";
+applicationTitle.className="profile-section";
+profileContent.appendChild(applicationTitle);
+
+const applicationGrid=document.createElement("div");
+applicationGrid.className="detail-grid";
+
+addDetail(applicationGrid,"Application ID","#"+(app.application_id??"—"));
+addDetail(applicationGrid,"Applied Job",app.job_title);
+addDetail(applicationGrid,"Match Score",
+(Number(app.match_score)||0)+"%");
+addDetail(applicationGrid,"Application Status",app.status||"Pending");
+addDetail(applicationGrid,"Job ID",app.job_id);
+addDetail(applicationGrid,"Candidate ID",app.candidate_id);
+addDetail(applicationGrid,"Applied On",app.created_at||app.applied_at);
+
+profileContent.appendChild(applicationGrid);
+
+// Additional candidate information, if supplied by backend
+const extraFields=[
+["Phone Number",app.phone||app.phone_number],
+["Education",app.education||app.qualification],
+["Skills",app.skills],
+["Experience",app.experience],
+["Location",app.location||app.address],
+["College",app.college||app.institution],
+["Graduation Year",app.graduation_year],
+["Resume Summary",app.resume_summary||app.summary]
+];
+
+const availableFields=extraFields.filter(item=>
+item[1]!==undefined&&item[1]!==null&&item[1]!==""
+);
+
+if(availableFields.length){
+const section=document.createElement("div");
+section.className="profile-section";
+
+const heading=document.createElement("h3");
+heading.textContent="Candidate Information";
+section.appendChild(heading);
+
+availableFields.forEach(([label,value])=>{
+const item=document.createElement("div");
+item.className="extra-detail";
+
+const title=document.createElement("div");
+title.className="detail-label";
+title.textContent=label;
+
+const content=document.createElement("div");
+content.className="detail-value";
+content.textContent=Array.isArray(value)?value.join(", "):String(value);
+
+item.append(title,content);
+section.appendChild(item);
+});
+
+profileContent.appendChild(section);
+}
+
+// Resume link, only when backend provides a valid web URL
+const resumeUrl=app.resume_url||app.resume_link||app.resume;
+
+if(typeof resumeUrl==="string"&&/^https?:\/\//i.test(resumeUrl)){
+const section=document.createElement("div");
+section.className="profile-section";
+
+const heading=document.createElement("h3");
+heading.textContent="Resume";
+const link=document.createElement("a");
+link.className="resume-link";
+link.href=resumeUrl;
+link.target="_blank";
+link.rel="noopener noreferrer";
+link.textContent="Open Candidate Resume ↗";
+
+section.append(heading,link);
+profileContent.appendChild(section);
+}
+
+const note=document.createElement("div");
+note.className="modal-note";
+note.textContent="This profile displays information currently available from the HireLens application database. Additional details such as education, skills and resume will appear when they are provided by the candidate and returned by the backend.";
+
+profileContent.appendChild(note);
+
+profileModal.classList.add("show");
+}
+
+function closeProfile(){
+profileModal.classList.remove("show");
+}
+
+document.getElementById("closeModal").addEventListener("click",closeProfile);
+
+profileModal.addEventListener("click",function(event){
+if(event.target===profileModal)closeProfile();
+});
+
+document.addEventListener("keydown",function(event){
+if(event.key==="Escape")closeProfile();
+});
+
+function renderApplications(){
+
+const query=searchInput.value.trim().toLowerCase();
+const selectedJob=jobFilter.value;
+
+const filtered=applications.filter(app=>{
+const searchable=[
+app.candidate_name,
+app.candidate_email,
+app.job_title,
+app.status
+].join(" ").toLowerCase();
+
+return searchable.includes(query)&&
+(selectedJob==="all"||String(app.job_id)===selectedJob);
+});
+
+rows.replaceChildren();
+
+filtered.forEach(app=>{
+
+const row=document.createElement("tr");
+
+const candidateCell=document.createElement("td");
+const person=document.createElement("div");
+person.className="person";
+
+const avatar=document.createElement("div");
+avatar.className="avatar";
+avatar.textContent=(app.candidate_name||"C").charAt(0).toUpperCase();
+
+const info=document.createElement("div");
+const name=document.createElement("strong");
+name.textContent=app.candidate_name||"Unknown Candidate";
+
+const email=document.createElement("small");
+email.textContent=app.candidate_email||"Email not available";
+
+info.append(name,email);
+person.append(avatar,info);
+candidateCell.appendChild(person);
+row.appendChild(candidateCell);
+
+addCell(row,app.job_title||"Untitled Job");
+
+const scoreCell=addCell(row,(Number(app.match_score)||0)+"%");
+scoreCell.style.fontWeight="700";
+scoreCell.style.color="#514dc7";
+
+const statusCell=document.createElement("td");
+
+const status=document.createElement("span");
+status.className="status";
+status.textContent=app.status||"Pending";
+
+const statusSelect=document.createElement("select");
+statusSelect.className="status-select";
+statusSelect.dataset.applicationId=app.application_id;
+
+["Pending","Shortlisted","Interview","Rejected","Hired"].forEach(value=>{
+const option=document.createElement("option");
+option.value=value;
+option.textContent=value;
+statusSelect.appendChild(option);
+});
+
+statusSelect.value=app.status||"Pending";
+
+statusCell.append(status,statusSelect);
+row.appendChild(statusCell);
+
+addCell(row,"#"+app.application_id);
+
+const actionCell=document.createElement("td");
+const viewButton=document.createElement("button");
+viewButton.className="view-btn";
+viewButton.textContent="View Profile";
+viewButton.type="button";
+viewButton.addEventListener("click",()=>openCandidateProfile(app));
+
+actionCell.appendChild(viewButton);
+row.appendChild(actionCell);
+
+rows.appendChild(row);
+});
+
+resultCount.textContent=
+"Showing "+filtered.length+" of "+applications.length+" applications";
+
+emptyState.hidden=filtered.length!==0;
+tableWrap.style.display=filtered.length?"block":"none";
+}
+
+// Update application status
+async function updateApplicationStatus(applicationId,newStatus,select){
+
+const app=applications.find(
+item=>String(item.application_id)===String(applicationId)
+);
+
+if(!app)return;
+
+const previousStatus=app.status||"Pending";
+const currentUser=getUser();
+
+const currentRecruiterId=currentUser?.id||
+currentUser?.user_id||
+currentUser?.recruiter_id;
+
+if(!currentRecruiterId){
+alert("Recruiter ID not found. Please login again.");
+renderApplications();
+return;
+}
+
+select.disabled=true;
+statusMessage.textContent="Updating application status...";
+
+try{
+
+const response=await fetch(
+`${API_URL}/api/applications/${applicationId}/status`,
+{
+method:"PATCH",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+recruiter_id:Number(currentRecruiterId),
+status:newStatus
+})
+}
+);
+
+const result=await response.json();
+
+if(!response.ok||result.success===false){
+throw new Error(result.message||result.error||"Status update failed.");
+}
+
+app.status=newStatus;
+
+statusMessage.textContent=
+"Application #"+applicationId+
+" status successfully updated to "+newStatus+".";
+
+renderApplications();
+
+}catch(error){
+
+console.error("Status update error:",error);
+app.status=previousStatus;
+
+statusMessage.textContent="Could not update status: "+error.message;
+alert("Status update failed: "+error.message);
+
+renderApplications();
+}
+}
+
+rows.addEventListener("change",function(event){
+
+const select=event.target.closest(".status-select");
+if(!select)return;
+
+updateApplicationStatus(
+select.dataset.applicationId,
+select.value,
+select
+);
+});
+
+async function loadApplications(){
+
+try{
+
+if(!recruiterId){
+throw new Error("Recruiter ID not found. Please login again.");
+}
+
+const response=await fetch(
+`${API_URL}/api/recruiter/${recruiterId}/applications`
+);
+
+const data=await response.json();
+
+if(!response.ok||data.success===false){
+throw new Error(data.message||data.error||"Could not load applications.");
+}
+
+applications=Array.isArray(data)
+?data
+:(data.applications||[]);
+
+document.getElementById("totalCandidates").textContent=applications.length;
+
+const uniqueIds=new Set(
+applications.map(app=>String(app.candidate_id))
+);
+
+document.getElementById("uniqueCandidates").textContent=uniqueIds.size;
+
+const average=applications.length
+?applications.reduce(
+(sum,app)=>sum+(Number(app.match_score)||0),0
+)/applications.length
+:0;
+
+document.getElementById("averageMatch").textContent=
+Math.round(average)+"%";
+
+populateJobFilter();
+renderApplications();
+
+statusMessage.textContent=
+"Successfully connected to HireLens database. Application records loaded.";
+
+}catch(error){
+
+console.error("Applications loading error:",error);
+statusMessage.textContent="Unable to load applications: "+error.message;
+resultCount.textContent="Could not load applications.";
+tableWrap.style.display="none";
+emptyState.hidden=false;
+}
+}
+
+searchInput.addEventListener("input",renderApplications);
+jobFilter.addEventListener("change",renderApplications);
+
+await loadApplications();
+
+});
+</script>
+</body>
+</html>

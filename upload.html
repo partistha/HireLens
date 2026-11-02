@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HireLens | AI Screening</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <style>
+
+        /* =========================================
+           HIRELENS AI SCREENING PAGE
+        ========================================= */
+
+        .screen-page {
+
+            min-height:100vh;
+
+            background:
+                radial-gradient(
+                    circle at 75% 5%,
+                    rgba(59,130,246,.11),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 15% 75%,
+                    rgba(34,211,238,.06),
+                    transparent 25%
+                ),
+                #050914;
+
+            color:#f7f9ff;
+
+        }
+
+
+        .screen-layout {
+
+            display:flex;
+
+            min-height:100vh;
+
+        }
+
+
+        /* SIDEBAR */
+
+        .screen-sidebar {
+
+            width:260px;
+
+            position:fixed;
+
+            left:0;
+            top:0;
+            bottom:0;
+
+            padding:26px 18px;
+
+            display:flex;
+            flex-direction:column;
+
+            background:rgba(5,9,20,.9);
+
+            border-right:
+                1px solid rgba(255,255,255,.07);
+
+            backdrop-filter:blur(22px);
+
+            z-index:50;
+
+        }
+
+
+        .screen-brand {
+
+            display:flex;
+            align-items:center;
+            gap:11px;
+
+            padding:
+                5px 10px 30px;
+
+            text-decoration:none;
+
+        }
+
+
+        .screen-brand-icon {
+
+            width:39px;
+            height:39px;
+
+            display:grid;
+            place-items:center;
+
+            border-radius:12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #22d3ee
+                );
+
+            box-shadow:
+                0 0 25px rgba(59,130,246,.3);
+
+        }
+
+
+        .screen-brand-name {
+
+            color:white;
+
+            font-family:"Space Grotesk";
+
+            font-size:20px;
+            font-weight:700;
+
+        }
+
+
+        .screen-label {
+
+            padding:0 11px;
+
+            margin:
+                8px 0 10px;
+
+            color:#66728e;
+
+            font-size:10px;
+            font-weight:700;
+
+            letter-spacing:1.5px;
+
+            text-transform:uppercase;
+
+        }
+
+
+        .screen-nav {
+
+            display:flex;
+            flex-direction:column;
+
+            gap:5px;
+
+        }
+
+
+        .screen-nav a {
+
+            display:flex;
+            align-items:center;
+            gap:12px;
+
+            padding:
+                12px 13px;
+
+            border-radius:13px;
+
+            color:#8c98b4;
+
+            text-decoration:none;
+
+            font-size:13px;
+            font-weight:600;
+
+            transition:.25s;
+
+        }
+
+
+        .screen-nav a:hover {
+
+            color:white;
+
+            background:
+                rgba(255,255,255,.045);
+
+            transform:translateX(3px);
+
+        }
+
+
+        .screen-nav a.active {
+
+            color:white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(59,130,246,.18),
+                    rgba(34,211,238,.05)
+                );
+
+            border:
+                1px solid rgba(59,130,246,.18);
+
+        }
+
+
+        .screen-nav-icon {
+
+            width:21px;
+
+            text-align:center;
+
+        }
+
+
+        .screen-sidebar-bottom {
+
+            margin-top:auto;
+
+        }
+
+
+        .screen-demo-box {
+
+            margin:
+                15px 4px;
+
+            padding:14px;
+
+            border-radius:16px;
+
+            background:
+                rgba(59,130,246,.07);
+
+            border:
+                1px solid rgba(59,130,246,.14);
+
+        }
+
+
+        .screen-demo-title {
+
+            display:flex;
+            align-items:center;
+            gap:7px;
+
+            margin-bottom:6px;
+
+            color:#cbd7f2;
+
+            font-size:11px;
+            font-weight:700;
+
+        }
+
+
+        .screen-demo-dot {
+
+            width:7px;
+            height:7px;
+
+            border-radius:50%;
+
+            background:#22d3ee;
+
+            box-shadow:
+                0 0 10px #22d3ee;
+
+        }
+
+
+        .screen-demo-box p {
+
+            margin:0;
+
+            color:#66728e;
+
+            font-size:9px;
+
+            line-height:1.6;
+
+        }
+
+
+        /* MAIN */
+
+        .screen-main {
+
+            width:
+                calc(100% - 260px);
+
+            margin-left:260px;
+
+            min-height:100vh;
+
+        }
+
+
+        /* TOPBAR */
+
+        .screen-topbar {
+
+            height:76px;
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            padding:
+                0 38px;
+
+            position:sticky;
+            top:0;
+
+            z-index:30;
+
+            background:
+                rgba(5,9,20,.6);
+
+            border-bottom:
+                1px solid rgba(255,255,255,.06);
+
+            backdrop-filter:
+                blur(20px);
+
+        }
+
+
+        .screen-top-title {
+
+            color:#aeb8cf;
+
+            font-family:"Space Grotesk";
+
+            font-size:14px;
+            font-weight:600;
+
+        }
+
+
+        .screen-profile {
+
+            display:flex;
+            align-items:center;
+            gap:10px;
+
+        }
+
+
+        .screen-avatar {
+
+            width:36px;
+            height:36px;
+
+            display:grid;
+            place-items:center;
+
+            border-radius:50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #8b5cf6
+                );
+
+            font-size:12px;
+            font-weight:700;
+
+        }
+
+
+        .screen-profile-text strong {
+
+            display:block;
+
+            font-size:11px;
+
+        }
+
+
+        .screen-profile-text span {
+
+            color:#65718b;
+
+            font-size:9px;
+
+        }
+
+
+        /* CONTENT */
+
+        .screen-content {
+
+            max-width:1250px;
+
+            padding:
+                38px;
+
+            margin:auto;
+
+        }
+
+
+        .screen-heading {
+
+            margin-bottom:30px;
+
+        }
+
+
+        .screen-heading .eyebrow {
+
+            display:flex;
+            align-items:center;
+            gap:7px;
+
+            margin-bottom:9px;
+
+            color:#60a5fa;
+
+            font-size:10px;
+            font-weight:700;
+
+            letter-spacing:1px;
+
+            text-transform:uppercase;
+
+        }
+
+
+        .eyebrow-dot {
+
+            width:6px;
+            height:6px;
+
+            border-radius:50%;
+
+            background:#22d3ee;
+
+            box-shadow:
+                0 0 10px #22d3ee;
+
+        }
+
+
+        .screen-heading h1 {
+
+            margin:
+                0 0 8px;
+
+            font-family:"Space Grotesk";
+
+            font-size:
+                clamp(27px,3vw,38px);
+
+            letter-spacing:-.8px;
+
+        }
+
+
+        .screen-heading p {
+
+            margin:0;
+
+            max-width:650px;
+
+            color:#7f8ba6;
+
+            font-size:13px;
+
+            line-height:1.6;
+
+        }
+
+
+        /* AI PROCESS */
+
+        .ai-process {
+
+            display:grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap:10px;
+
+            margin-bottom:22px;
+
+        }
+
+
+        .process-card {
+
+            display:flex;
+            align-items:center;
+            gap:11px;
+
+            padding:13px 15px;
+
+            border-radius:13px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            border:
+                1px solid rgba(255,255,255,.055);
+
+        }
+
+
+        .process-number {
+
+            width:28px;
+            height:28px;
+
+            display:grid;
+            place-items:center;
+
+            flex-shrink:0;
+
+            border-radius:9px;
+
+            color:#60a5fa;
+
+            background:
+                rgba(59,130,246,.1);
+
+            font-size:10px;
+            font-weight:700;
+
+        }
+
+
+        .process-card strong {
+
+            display:block;
+
+            margin-bottom:2px;
+
+            font-size:10px;
+
+        }
+
+
+        .process-card span {
+
+            color:#65718b;
+
+            font-size:8px;
+
+        }
+
+
+        /* SCREENING GRID */
+
+        .screen-grid {
+
+            display:grid;
+
+            grid-template-columns:
+                minmax(0,1.2fr)
+                minmax(320px,.8fr);
+
+            gap:18px;
+
+        }
+
+
+        .screen-panel {
+
+            padding:24px;
+
+            border-radius:20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(13,23,45,.8),
+                    rgba(7,13,27,.8)
+                );
+
+            border:
+                1px solid rgba(255,255,255,.07);
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,.14);
+
+        }
+
+
+        .panel-heading {
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            margin-bottom:22px;
+
+        }
+
+
+        .panel-heading h2 {
+
+            margin:0;
+
+            font-family:"Space Grotesk";
+
+            font-size:15px;
+
+        }
+
+
+        .panel-heading p {
+
+            margin:5px 0 0;
+
+            color:#65718b;
+
+            font-size:9px;
+
+        }
+
+
+        .ai-badge {
+
+            padding:6px 9px;
+
+            border-radius:20px;
+
+            color:#60a5fa;
+
+            background:
+                rgba(59,130,246,.08);
+
+            border:
+                1px solid rgba(59,130,246,.13);
+
+            font-size:8px;
+            font-weight:700;
+
+        }
+
+
+        /* FORM */
+
+        .field {
+
+            margin-bottom:17px;
+
+        }
+
+
+        .field label {
+
+            display:block;
+
+            margin-bottom:7px;
+
+            color:#aeb8cf;
+
+            font-size:10px;
+            font-weight:600;
+
+        }
+
+
+        .field input,
+        .field textarea,
+        .field select {
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            padding:
+                12px 13px;
+
+            border-radius:11px;
+
+            outline:none;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            background:
+                rgba(2,7,18,.65);
+
+            color:#edf2ff;
+
+            font-family:"DM Sans";
+
+            font-size:11px;
+
+            transition:.2s;
+
+        }
+
+
+        .field textarea {
+
+            min-height:125px;
+
+            resize:vertical;
+
+        }
+
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+
+            color:#4f5c76;
+
+        }
+
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+
+            border-color:
+                rgba(59,130,246,.5);
+
+            box-shadow:
+                0 0 0 3px rgba(59,130,246,.07);
+
+        }
+
+
+        .two-fields {
+
+            display:grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:12px;
+
+        }
+
+
+        /* UPLOAD */
+
+        .upload-zone {
+
+            position:relative;
+
+            padding:23px;
+
+            text-align:center;
+
+            border-radius:15px;
+
+            border:
+                1px dashed rgba(59,130,246,.28);
+
+            background:
+                rgba(59,130,246,.035);
+
+            cursor:pointer;
+
+            transition:.25s;
+
+        }
+
+
+        .upload-zone:hover {
+
+            border-color:
+                rgba(34,211,238,.5);
+
+            background:
+                rgba(59,130,246,.06);
+
+        }
+
+
+        .upload-icon {
+
+            width:44px;
+            height:44px;
+
+            display:grid;
+            place-items:center;
+
+            margin:
+                0 auto 10px;
+
+            border-radius:13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(37,99,235,.18),
+                    rgba(34,211,238,.09)
+                );
+
+            color:#60a5fa;
+
+            font-size:18px;
+
+        }
+
+
+        .upload-zone strong {
+
+            display:block;
+
+            margin-bottom:5px;
+
+            font-size:11px;
+
+        }
+
+
+        .upload-zone span {
+
+            color:#66728e;
+
+            font-size:8px;
+
+        }
+
+
+        .upload-zone input {
+
+            position:absolute;
+
+            inset:0;
+
+            opacity:0;
+
+            cursor:pointer;
+
+        }
+
+
+        .selected-file {
+
+            display:none;
+
+            margin-top:10px;
+
+            padding:8px 10px;
+
+            border-radius:8px;
+
+            color:#34d399;
+
+            background:
+                rgba(52,211,153,.07);
+
+            font-size:9px;
+
+        }
+
+
+        /* BUTTON */
+
+        .screen-button {
+
+            width:100%;
+
+            margin-top:4px;
+
+            padding:14px;
+
+            border:none;
+
+            border-radius:12px;
+
+            color:white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #3b82f6
+                );
+
+            font-family:"DM Sans";
+
+            font-size:11px;
+            font-weight:700;
+
+            cursor:pointer;
+
+            box-shadow:
+                0 12px 30px rgba(37,99,235,.2);
+
+            transition:.25s;
+
+        }
+
+
+        .screen-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 15px 35px rgba(37,99,235,.32);
+
+        }
+
+
+        /* RESULT */
+
+        .result-card {
+
+            position:relative;
+
+            overflow:hidden;
+
+            padding:21px;
+
+            border-radius:17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(59,130,246,.10),
+                    rgba(34,211,238,.035)
+                );
+
+            border:
+                1px solid rgba(59,130,246,.16);
+
+            margin-bottom:15px;
+
+        }
+
+
+        .result-card::before {
+
+            content:"";
+
+            position:absolute;
+
+            width:130px;
+            height:130px;
+
+            right:-60px;
+            top:-70px;
+
+            border-radius:50%;
+
+            background:
+                rgba(34,211,238,.07);
+
+            filter:blur(20px);
+
+        }
+
+
+        .result-top {
+
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+
+            margin-bottom:20px;
+
+        }
+
+
+        .result-job {
+
+            display:flex;
+            align-items:center;
+            gap:11px;
+
+        }
+
+
+        .result-logo {
+
+            width:42px;
+            height:42px;
+
+            display:grid;
+            place-items:center;
+
+            border-radius:12px;
+
+            background:
+                rgba(59,130,246,.12);
+
+            font-size:17px;
+
+        }
+
+
+        .result-job strong {
+
+            display:block;
+
+            margin-bottom:4px;
+
+            font-size:12px;
+
+        }
+
+
+        .result-job span {
+
+            color:#65718b;
+
+            font-size:9px;
+
+        }
+
+
+        .match-circle {
+
+            width:68px;
+            height:68px;
+
+            display:grid;
+            place-items:center;
+
+            border-radius:50%;
+
+            background:
+                conic-gradient(
+                    #22d3ee 0 94%,
+                    rgba(255,255,255,.07) 94% 100%
+                );
+
+            position:relative;
+
+        }
+
+
+        .match-circle::after {
+
+            content:"";
+
+            position:absolute;
+
+            inset:6px;
+
+            border-radius:50%;
+
+            background:#0b1428;
+
+        }
+
+
+        .match-circle strong {
+
+            position:relative;
+
+            z-index:2;
+
+            font-family:"Space Grotesk";
+
+            font-size:14px;
+
+        }
+
+
+        .match-label {
+
+            margin-bottom:13px;
+
+            color:#65718b;
+
+            font-size:9px;
+
+        }
+
+
+        .match-bar {
+
+            height:7px;
+
+            overflow:hidden;
+
+            border-radius:20px;
+
+            background:
+                rgba(255,255,255,.06);
+
+            margin-bottom:18px;
+
+        }
+
+
+        .match-bar div {
+
+            height:100%;
+
+            width:94%;
+
+            border-radius:inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #22d3ee
+                );
+
+        }
+
+
+        .skills-title {
+
+            margin-bottom:9px;
+
+            color:#aeb8cf;
+
+            font-size:9px;
+            font-weight:700;
+
+        }
+
+
+        .skills {
+
+            display:flex;
+
+            flex-wrap:wrap;
+
+            gap:6px;
+
+        }
+
+
+        .result-skill {
+
+            padding:6px 8px;
+
+            border-radius:7px;
+
+            color:#aeb8cf;
+
+            background:
+                rgba(255,255,255,.045);
+
+            font-size:8px;
+
+        }
+
+
+        .result-skill.matched {
+
+            color:#5eead4;
+
+            background:
+                rgba(34,211,238,.07);
+
+            border:
+                1px solid rgba(34,211,238,.12);
+
+        }
+
+
+        /* INSIGHTS */
+
+        .insight {
+
+            display:flex;
+
+            gap:10px;
+
+            padding:12px 0;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.055);
+
+        }
+
+
+        .insight:last-child {
+
+            border-bottom:none;
+
+        }
+
+
+        .insight-icon {
+
+            width:28px;
+            height:28px;
+
+            display:grid;
+            place-items:center;
+
+            flex-shrink:0;
+
+            border-radius:8px;
+
+            background:
+                rgba(59,130,246,.09);
+
+            color:#60a5fa;
+
+            font-size:11px;
+
+        }
+
+
+        .insight strong {
+
+            display:block;
+
+            margin-bottom:3px;
+
+            font-size:9px;
+
+        }
+
+
+        .insight p {
+
+            margin:0;
+
+            color:#66728e;
+
+            font-size:8px;
+
+            line-height:1.5;
+
+        }
+
+
+        .prototype-note {
+
+            margin-top:15px;
+
+            padding:12px;
+
+            border-radius:10px;
+
+            background:
+                rgba(251,191,36,.045);
+
+            border:
+                1px solid rgba(251,191,36,.10);
+
+            color:#9a8754;
+
+            font-size:8px;
+
+            line-height:1.5;
+
+        }
+
+
+        /* MOBILE */
+
+        .screen-mobile-menu {
+
+            display:none;
+
+            width:38px;
+            height:38px;
+
+            place-items:center;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            border-radius:10px;
+
+            background:
+                rgba(255,255,255,.03);
+
+            color:white;
+
+        }
+
+
+        @media(max-width:1000px) {
+
+            .screen-grid {
+
+                grid-template-columns:1fr;
+
+            }
+
+            .ai-process {
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+
+        @media(max-width:800px) {
+
+            .screen-sidebar {
+
+                transform:translateX(-100%);
+
+                transition:.3s;
+
+            }
+
+            .screen-sidebar.open {
+
+                transform:translateX(0);
+
+            }
+
+            .screen-main {
+
+                width:100%;
+
+                margin-left:0;
+
+            }
+
+            .screen-mobile-menu {
+
+                display:grid;
+
+            }
+
+            .screen-topbar {
+
+                padding:0 18px;
+
+            }
+
+            .screen-content {
+
+                padding:25px 18px;
+
+            }
+
+        }
+
+
+        @media(max-width:550px) {
+
+            .two-fields {
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="screen-page">
+
+
+<div class="screen-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="screen-sidebar" id="screenSidebar">
+
+        <a href="index.html" class="screen-brand">
+
+            <div class="screen-brand-icon">
+                🔎
+            </div>
+
+            <div class="screen-brand-name">
+                HireLens
+            </div>
+
+        </a>
+
+
+        <div class="screen-label">
+            Workspace
+        </div>
+
+
+        <nav class="screen-nav">
+
+            <a href="dashboard.html">
+                <span class="screen-nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="upload.html" class="active">
+                <span class="screen-nav-icon">✦</span>
+                AI Screening
+            </a>
+
+            <a href="upload.html">
+                <span class="screen-nav-icon">＋</span>
+                Create Job
+            </a>
+
+            <a href="candidates.html">
+                <span class="screen-nav-icon">♙</span>
+                Candidates
+            </a>
+
+            <a href="analytics.html">
+                <span class="screen-nav-icon">◫</span>
+                Analytics
+            </a>
+
+        </nav>
+
+
+        <div class="screen-label" style="margin-top:25px;">
+            Account
+        </div>
+
+
+        <nav class="screen-nav">
+
+            <a href="#">
+                <span class="screen-nav-icon">⚙</span>
+                Settings
+            </a>
+
+            <a href="login.html">
+                <span class="screen-nav-icon">↪</span>
+                Logout
+            </a>
+
+        </nav>
+
+
+        <div class="screen-sidebar-bottom">
+
+            <div class="screen-demo-box">
+
+                <div class="screen-demo-title">
+
+                    <span class="screen-demo-dot"></span>
+
+                    Prototype Mode
+
+                </div>
+
+                <p>
+                    Resume intelligence is using sample data
+                    until the Python + NLP backend is connected.
+                </p>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="screen-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="screen-topbar">
+
+            <div style="display:flex;align-items:center;gap:14px;">
+
+                <button
+                    class="screen-mobile-menu"
+                    onclick="toggleScreenMenu()">
+
+                    ☰
+
+                </button>
+
+                <div class="screen-top-title">
+                    AI Recruitment Intelligence
+                </div>
+
+            </div>
+
+
+            <div class="screen-profile">
+
+                <div class="screen-avatar">
+                    R
+                </div>
+
+                <div class="screen-profile-text">
+
+                    <strong>
+                        Recruiter
+                    </strong>
+
+                    <span>
+                        Hiring Team
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="screen-content">
+
+
+            <!-- HEADING -->
+
+            <div class="screen-heading">
+
+                <div class="eyebrow">
+
+                    <span class="eyebrow-dot"></span>
+
+                    Intelligent Candidate Screening
+
+                </div>
+
+                <h1>
+                    Screen smarter with AI.
+                </h1>
+
+                <p>
+                    Create a job requirement, upload a candidate resume,
+                    and let HireLens analyze skills, experience and
+                    job compatibility in seconds.
+                </p>
+
+            </div>
+
+
+            <!-- PROCESS -->
+
+            <div class="ai-process">
+
+                <div class="process-card">
+
+                    <div class="process-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Define Role
+                        </strong>
+
+                        <span>
+                            Add job requirements
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <div class="process-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Upload Resume
+                        </strong>
+
+                        <span>
+                            PDF / DOCX candidate CV
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <div class="process-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            AI Match
+                        </strong>
+
+                        <span>
+                            Skills + relevance analysis
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCREEN GRID -->
+
+            <div class="screen-grid">
+
+
+                <!-- LEFT FORM -->
+
+                <div class="screen-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <h2>
+                                Job Requirements
+                            </h2>
+
+                            <p>
+                                Tell HireLens what you're looking for.
+                            </p>
+
+                        </div>
+
+                        <div class="ai-badge">
+                            AI READY
+                        </div>
+
+                    </div>
+
+
+                    <form id="screeningForm">
+
+
+                        <!-- JOB TITLE -->
+
+                        <div class="field">
+
+                            <label for="jobTitle">
+                                Job Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="jobTitle"
+                                placeholder="e.g. AI / ML Intern"
+                                required>
+
+                        </div>
+
+
+                        <!-- LOCATION + TYPE -->
+
+                        <div class="two-fields">
+
+                            <div class="field">
+
+                                <label for="jobLocation">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="jobLocation"
+                                    placeholder="e.g. Chandigarh">
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label for="employmentType">
+                                    Employment Type
+                                </label>
+
+                                <select id="employmentType">
+
+                                    <option>
+                                        Internship
+                                    </option>
+
+                                    <option>
+                                        Full Time
+                                    </option>
+
+                                    <option>
+                                        Part Time
+                                    </option>
+
+                                    <option>
+                                        Remote
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="field">
+
+                            <label for="jobDescription">
+                                Job Description
+                            </label>
+
+                            <textarea
+                                id="jobDescription"
+                                placeholder="Describe responsibilities, qualifications and expectations..."
+                                required></textarea>
+
+                        </div>
+
+
+                        <!-- SKILLS -->
+
+                        <div class="field">
+
+                            <label for="requiredSkills">
+                                Required Skills
+                            </label>
+
+                            <input
+                                type="text"
+                                id="requiredSkills"
+                                placeholder="Python, Machine Learning, SQL, Pandas"
+                                required>
+
+                        </div>
+
+
+                        <!-- RESUME -->
+
+                        <div class="field">
+
+                            <label>
+                                Candidate Resume
+                            </label>
+
+                            <div class="upload-zone">
+
+                                <div class="upload-icon">
+                                    ↑
+                                </div>
+
+                                <strong>
+                                    Drop resume here or browse
+                                </strong>
+
+                                <span>
+                                    PDF, DOC or DOCX • Max 5 MB
+                                </span>
+
+                                <input
+                                    type="file"
+                                    id="resumeFile"
+                                    accept=".pdf,.doc,.docx">
+
+                            </div>
+
+                            <div
+                                class="selected-file"
+                                id="selectedFile">
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="screen-button"
+                            id="uploadBtn">
+
+                            ✦ Analyze Resume with HireLens AI
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+
+                <!-- RIGHT RESULT -->
+
+                <div>
+
+
+                    <!-- RESULT -->
+
+                    <div class="screen-panel">
+
+                        <div class="panel-heading">
+
+                            <div>
+
+                                <h2>
+                                    AI Screening Result
+                                </h2>
+
+                                <p>
+                                    Candidate compatibility overview
+                                </p>
+
+                            </div>
+
+                            <div class="ai-badge">
+                                DEMO
+                            </div>
+
+                        </div>
+
+
+                        <div class="result-card">
+
+
+                            <div class="result-top">
+
+                                <div class="result-job">
+
+                                    <div class="result-logo">
+                                        🤖
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            AI / ML Intern
+                                        </strong>
+
+                                        <span>
+                                            Candidate #HL-1024
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="match-circle">
+
+                                    <strong>
+                                        94%
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="match-label">
+                                Overall Job Match
+                            </div>
+
+
+                            <div class="match-bar">
+
+                                <div></div>
+
+                            </div>
+
+
+                            <div class="skills-title">
+                                Matched Skills
+                            </div>
+
+
+                            <div class="skills">
+
+                                <span class="result-skill matched">
+                                    ✓ Python
+                                </span>
+
+                                <span class="result-skill matched">
+                                    ✓ Machine Learning
+                                </span>
+
+                                <span class="result-skill matched">
+                                    ✓ SQL
+                                </span>
+
+                                <span class="result-skill matched">
+                                    ✓ Pandas
+                                </span>
+
+                                <span class="result-skill">
+                                    Flask
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- INSIGHTS -->
+
+                        <div class="insight">
+
+                            <div class="insight-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Strong technical alignment
+                                </strong>
+
+                                <p>
+                                    Candidate demonstrates relevant
+                                    Python, ML and data-analysis skills.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="insight">
+
+                            <div class="insight-icon">
+                                ✦
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Recommended for review
+                                </strong>
+
+                                <p>
+                                    Profile appears suitable for the
+                                    current internship requirements.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="insight">
+
+                            <div class="insight-icon">
+                                !
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Potential improvement
+                                </strong>
+
+                                <p>
+                                    Cloud technologies such as AWS
+                                    could strengthen the profile.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="prototype-note">
+
+                            <strong>
+                                Prototype note:
+                            </strong>
+
+                            The 94% score shown above is sample
+                            frontend data. In the final system,
+                            Python + NLP + ML will calculate the
+                            candidate score automatically.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* FILE SELECTION */
+
+    const resumeInput =
+        document.getElementById("resumeFile");
+
+    const selectedFile =
+        document.getElementById("selectedFile");
+
+
+    resumeInput.addEventListener(
+        "change",
+        function() {
+
+            if (this.files.length > 0) {
+
+                selectedFile.style.display = "block";
+
+                selectedFile.textContent =
+                    "✓ " + this.files[0].name;
+
+            }
+
+        }
+    );
+
+
+    /* FORM */
+
+    const screeningForm =
+        document.getElementById("screeningForm");
+
+
+    screeningForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const jobTitle =
+                document.getElementById("jobTitle").value.trim();
+
+            const description =
+                document.getElementById("jobDescription").value.trim();
+
+            const skills =
+                document.getElementById("requiredSkills").value.trim();
+
+
+            if (!jobTitle || !description || !skills) {
+
+                alert(
+                    "Please complete the Job Title, Job Description and Required Skills."
+                );
+
+                return;
+
+            }
+
+
+            const button =
+                document.getElementById("uploadBtn");
+
+
+            button.innerHTML =
+                "✦ Analyzing Resume...";
+
+            button.disabled = true;
+
+
+            setTimeout(function() {
+
+                button.innerHTML =
+                    "✓ Analysis Complete";
+
+                button.disabled = false;
+
+
+                alert(
+                    "Resume analyzed successfully! Demo match score: 94%."
+                );
+
+            }, 1500);
+
+        }
+    );
+
+
+    /* MOBILE MENU */
+
+    function toggleScreenMenu() {
+
+        document
+            .getElementById("screenSidebar")
+            .classList.toggle("open");
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
